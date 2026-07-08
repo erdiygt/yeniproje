@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ABS Beyni Tamiri ve Satışı
 
-## Getting Started
+Profesyonel kurumsal web sitesi — Landing Page, Blog ve Yönetim Paneli.
 
-First, run the development server:
+## Teknolojiler
+
+- Next.js 15+ (App Router)
+- TypeScript
+- TailwindCSS
+- Framer Motion
+- Prisma ORM (PostgreSQL)
+- NextAuth
+- shadcn/ui
+
+## Kurulum
 
 ```bash
+npm install
+cp .env.example .env
+npm run db:setup
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Ortam Değişkenleri
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+`.env.example` dosyasındaki değişkenleri `.env` dosyasına kopyalayın.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Admin Girişi
 
-## Learn More
+Seed çalıştırmadan önce `.env` dosyasında `ADMIN_EMAIL` ve `ADMIN_PASSWORD` tanımlayın:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+ADMIN_EMAIL="admin@abscimustafa.com.tr"
+ADMIN_PASSWORD="your-strong-password"
+npm run db:seed
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Font Dosyaları
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Charlie Display ve Charlie Text fontlarını şu konumlara ekleyin:
 
-## Deploy on Vercel
+- `public/fonts/charlie-display/`
+- `public/fonts/charlie-text/`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Ardından `app/globals.css` içindeki `@font-face` yorumlarını kaldırın.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Placeholder Görseller
+
+- `public/images/about.jpg` — Hakkımızda görseli
+- `public/images/references/` — Referans logoları
+- `public/images/blog/` — Blog kapak görselleri
+- `NEXT_PUBLIC_YOUTUBE_VIDEO_ID` — Hero video ID
+
+## Deploy (Vercel)
+
+1. PostgreSQL veritabanı oluşturun
+2. `DATABASE_URL` ortam değişkenini ayarlayın
+3. `AUTH_SECRET` oluşturun: `openssl rand -base64 32`
+4. Deploy sonrası: `npx prisma db push && npx tsx prisma/seed.ts`

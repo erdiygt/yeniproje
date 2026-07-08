@@ -1,0 +1,7 @@
+# Charlie Text Font Files
+# Add the following files to this directory:
+# - CharlieText-Regular.woff2
+# - CharlieText-Medium.woff2
+# - CharlieText-Bold.woff2
+#
+# Then uncomment @font-face rules in app/globals.css

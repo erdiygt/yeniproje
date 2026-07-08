@@ -1,0 +1,9 @@
+# Charlie Display (next/font/local)
+#
+# Bu klasöre aşağıdaki dosyaları ekleyin:
+# - CharlieDisplay-Regular.woff2  (400)
+# - CharlieDisplay-Medium.woff2   (500)
+# - CharlieDisplay-Bold.woff2     (700)
+#
+# Dosyaları ekledikten sonra: npm run fonts:sync
+# Ardından dev sunucusunu yeniden başlatın.
