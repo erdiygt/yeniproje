@@ -1,7 +1,9 @@
+import "server-only";
+
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeSanitize from "rehype-sanitize";
-import DOMPurify from "isomorphic-dompurify";
+import sanitizeHtml from "sanitize-html";
 
 interface BlogContentProps {
   content: string;
@@ -15,8 +17,8 @@ function isHtmlContent(content: string): boolean {
   );
 }
 
-const sanitizeConfig = {
-  ALLOWED_TAGS: [
+const htmlSanitizeOptions: sanitizeHtml.IOptions = {
+  allowedTags: [
     "p",
     "br",
     "strong",
@@ -41,20 +43,16 @@ const sanitizeConfig = {
     "span",
     "div",
   ],
-  ALLOWED_ATTR: [
-    "href",
-    "target",
-    "rel",
-    "src",
-    "alt",
-    "title",
-    "class",
-  ],
+  allowedAttributes: {
+    a: ["href", "target", "rel"],
+    img: ["src", "alt", "title"],
+    "*": ["class"],
+  },
 };
 
 export function BlogContent({ content }: BlogContentProps) {
   if (isHtmlContent(content)) {
-    const sanitized = DOMPurify.sanitize(content, sanitizeConfig);
+    const sanitized = sanitizeHtml(content, htmlSanitizeOptions);
 
     return (
       <div

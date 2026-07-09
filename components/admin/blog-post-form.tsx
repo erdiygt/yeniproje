@@ -94,8 +94,12 @@ export function BlogPostForm({ post }: BlogPostFormProps) {
         router.push("/admin/blog");
       }
       router.refresh();
-    } catch {
-      setError("İşlem sırasında bir hata oluştu. Lütfen tekrar deneyin.");
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "İşlem sırasında bir hata oluştu. Lütfen tekrar deneyin."
+      );
       setIsLoading(false);
     }
   };

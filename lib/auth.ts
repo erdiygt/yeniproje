@@ -16,11 +16,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return null;
         }
 
-        const email = credentials.email as string;
+        const trimmedEmail = (credentials.email as string).trim();
         const password = credentials.password as string;
 
         const user = await prisma.user.findUnique({
-          where: { email },
+          where: { email: trimmedEmail },
         });
 
         if (!user) {

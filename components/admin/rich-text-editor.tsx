@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
@@ -48,13 +48,19 @@ async function uploadImage(file: File): Promise<string> {
     body: formData,
   });
 
-  const data = (await response.json()) as { url?: string; error?: string };
+  const data = (await response.json()) as {
+    url?: string;
+    secure_url?: string;
+    error?: string;
+  };
 
-  if (!response.ok || !data.url) {
+  const imageUrl = data.secure_url || data.url;
+
+  if (!response.ok || !imageUrl) {
     throw new Error(data.error || "Görsel yüklenemedi");
   }
 
-  return data.url;
+  return imageUrl;
 }
 
 function ToolbarButton({
@@ -96,8 +102,13 @@ export function RichTextEditor({
   placeholder = "Yazınızı buraya girin...",
 }: RichTextEditorProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const onChangeRef = useRef(onChange);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
+
+  useEffect(() => {
+    onChangeRef.current = onChange;
+  }, [onChange]);
 
   const editor = useEditor({
     immediatelyRender: false,
@@ -135,7 +146,10 @@ export function RichTextEditor({
       },
     },
     onUpdate: ({ editor: currentEditor }) => {
-      onChange(currentEditor.getHTML());
+      onChangeRef.current(currentEditor.getHTML());
+    },
+    onBlur: ({ editor: currentEditor }) => {
+      onChangeRef.current(currentEditor.getHTML());
     },
   });
 
