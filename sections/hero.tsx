@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { Phone } from "lucide-react";
 import { siteConfig } from "@/lib/seo";
-import { YOUTUBE_VIDEO_ID } from "@/lib/data/references";
 import { cn } from "@/lib/utils";
 
 const heroButtonBase =
@@ -13,9 +12,6 @@ const heroButtonBase =
 export function HeroSection() {
   const whatsappUrl = `https://wa.me/${siteConfig.whatsapp.replace(/[^0-9]/g, "")}`;
   const phoneUrl = `tel:${siteConfig.phone}`;
-  const videoId =
-    process.env.NEXT_PUBLIC_YOUTUBE_VIDEO_ID || YOUTUBE_VIDEO_ID;
-  const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&modestbranding=1&rel=0&playsinline=1`;
 
   return (
     <section
@@ -93,14 +89,14 @@ export function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <div className="relative aspect-video w-full">
-              <iframe
-                src={embedUrl}
-                title="ABS Beyni Tamiri Tanıtım Videosu"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="absolute inset-0 h-full w-full border-0"
-                loading="lazy"
+            <div className="relative aspect-[16/9] w-full">
+              <Image
+                src="/images/hero.png"
+                alt="ABS beyni tamiri ve bakım hizmeti"
+                fill
+                priority
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
               />
             </div>
           </motion.div>

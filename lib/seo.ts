@@ -2,6 +2,16 @@ import type { Metadata } from "next";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 const siteName = process.env.NEXT_PUBLIC_SITE_NAME || "ABSCİMustafa.com.tr";
+const defaultAddress =
+  "İvedik Organize Sanayi Bölgesi 1333. Cadde No:113 İvedik / ANKARA";
+
+const address =
+  process.env.NEXT_PUBLIC_ADDRESS ||
+  process.env.ADDRESS ||
+  defaultAddress;
+
+const mapsEmbedOverride =
+  process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL?.trim() || "";
 
 export const siteConfig = {
   name: siteName,
@@ -20,10 +30,10 @@ export const siteConfig = {
     process.env.NEXT_PUBLIC_EMAIL ||
     process.env.EMAIL ||
     "bilgi@abscimustafa.com.tr",
-  address:
-    process.env.NEXT_PUBLIC_ADDRESS ||
-    process.env.ADDRESS ||
-    "İvedik Organize Sanayi Bölgesi 1333. Cadde No:113 İvedik / ANKARA",
+  address,
+  mapsEmbedUrl: mapsEmbedOverride
+    ? mapsEmbedOverride
+    : `https://maps.google.com/maps?q=${encodeURIComponent(address)}&hl=tr&z=16&output=embed`,
   locale: "tr_TR",
   twitterHandle: "@abscimustafa",
 };

@@ -1,8 +1,7 @@
-"use client";
-
 import Image from "next/image";
 import { Phone, Mail, MapPin, type LucideIcon } from "lucide-react";
 import { SectionHeading } from "@/components/common/section-heading";
+import { ContactMap } from "@/components/contact/contact-map";
 import { siteConfig } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
@@ -75,9 +74,6 @@ function ContactCard({
 
 export function ContactSection() {
   const whatsappUrl = `https://wa.me/${siteConfig.whatsapp.replace(/[^0-9]/g, "")}`;
-  const mapsUrl =
-    process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL ||
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d385395.5590093089!2d28.682534!3d41.00527!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDHCsDAwJzE5LjAiTiAyOMKwNDAnNTcuMSJF!5e0!3m2!1str!2str!4v1234567890";
 
   const contactItems: ContactCardProps[] = [
     {
@@ -127,16 +123,7 @@ export function ContactSection() {
               ))}
             </div>
 
-            <div className="relative min-h-[280px] overflow-hidden rounded-xl border border-[#ECEEF1] sm:min-h-[300px] lg:min-h-[340px]">
-              <iframe
-                src={mapsUrl}
-                title="Konum haritası"
-                className="absolute inset-0 h-full w-full border-0"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                allowFullScreen
-              />
-            </div>
+            <ContactMap />
           </div>
         </div>
       </div>
