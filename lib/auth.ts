@@ -82,8 +82,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.role = dbUser.role;
         token.roleCheckedAt = Date.now();
       } catch {
-        // Keep existing token role if DB is temporarily unavailable
-        token.roleCheckedAt = Date.now();
+        // Do not extend the grace window on DB errors — retry on next request
       }
 
       return token;

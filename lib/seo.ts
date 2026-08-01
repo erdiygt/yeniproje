@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.abscimustafa.com.tr";
+const siteUrl = (
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.abscimustafa.com.tr"
+).replace(/\/$/, "");
 const siteName = process.env.NEXT_PUBLIC_SITE_NAME || "ABSCİMustafa.com.tr";
 const defaultAddress =
   "İvedik Organize Sanayi Bölgesi 1333. Cadde No:113 İvedik / ANKARA";
@@ -12,6 +14,31 @@ const address =
 
 const mapsEmbedOverride =
   process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL?.trim() || "";
+
+function resolveMapsEmbedUrl(addressValue: string, override: string): string {
+  const fallback = `https://maps.google.com/maps?q=${encodeURIComponent(addressValue)}&hl=tr&z=16&output=embed`;
+  if (!override) return fallback;
+
+  try {
+    const parsed = new URL(override);
+    const allowedHosts = new Set([
+      "www.google.com",
+      "maps.google.com",
+      "google.com",
+    ]);
+    if (!allowedHosts.has(parsed.hostname)) return fallback;
+    if (parsed.protocol !== "https:") return fallback;
+    if (
+      parsed.hostname === "www.google.com" &&
+      !parsed.pathname.startsWith("/maps")
+    ) {
+      return fallback;
+    }
+    return override;
+  } catch {
+    return fallback;
+  }
+}
 
 export const siteConfig = {
   name: siteName,
@@ -31,9 +58,7 @@ export const siteConfig = {
     process.env.EMAIL ||
     "bilgi@abscimustafa.com.tr",
   address,
-  mapsEmbedUrl: mapsEmbedOverride
-    ? mapsEmbedOverride
-    : `https://maps.google.com/maps?q=${encodeURIComponent(address)}&hl=tr&z=16&output=embed`,
+  mapsEmbedUrl: resolveMapsEmbedUrl(address, mapsEmbedOverride),
   locale: "tr_TR",
   twitterHandle: "@abscimustafa",
 };
@@ -70,7 +95,7 @@ export function generateSEO({
       ? `${title} | ${siteConfig.name}`
       : siteConfig.name;
   const pageDescription = description || siteConfig.description;
-  const pageImage = image || `${siteConfig.url}/icon.png`;
+  const pageImage = image || `${siteConfig.url}/og-image.jpg`;
   const pageUrl = canonical || siteConfig.url;
 
   return {

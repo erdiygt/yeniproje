@@ -7,14 +7,13 @@ export function getOrganizationSchema() {
     "@type": "Organization",
     name: siteConfig.name,
     url: siteConfig.url,
-    logo: `${siteConfig.url}/logo.png`,
+    logo: `${siteConfig.url}/icon.png`,
     contactPoint: {
       "@type": "ContactPoint",
       telephone: siteConfig.phone,
       contactType: "customer service",
       availableLanguage: "Turkish",
     },
-    sameAs: [],
   };
 }
 
@@ -29,13 +28,23 @@ export function getLocalBusinessSchema() {
     email: siteConfig.email,
     address: {
       "@type": "PostalAddress",
-      addressLocality: siteConfig.address,
+      streetAddress: "İvedik Organize Sanayi Bölgesi 1333. Cadde No:113",
+      addressLocality: "Ankara",
+      addressRegion: "Ankara",
+      postalCode: "06378",
       addressCountry: "TR",
     },
     priceRange: "$$",
     openingHoursSpecification: {
       "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      dayOfWeek: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ],
       opens: "09:00",
       closes: "18:00",
     },
@@ -82,7 +91,7 @@ export function getBlogPostingSchema(post: {
       name: siteConfig.name,
       logo: {
         "@type": "ImageObject",
-        url: `${siteConfig.url}/logo.png`,
+        url: `${siteConfig.url}/icon.png`,
       },
     },
     datePublished: post.publishedAt?.toISOString(),
@@ -118,11 +127,6 @@ export function getWebSiteSchema() {
     name: siteConfig.name,
     url: siteConfig.url,
     description: siteConfig.description,
-    potentialAction: {
-      "@type": "SearchAction",
-      target: `${siteConfig.url}/blog?q={search_term_string}`,
-      "query-input": "required name=search_term_string",
-    },
   };
 }
 
@@ -192,25 +196,22 @@ export function getProductSchema(product: {
     schema.releaseDate = product.publishedAt.toISOString();
   }
 
-  const offer: Record<string, unknown> = {
-    "@type": "Offer",
-    url,
-    priceCurrency: "TRY",
-    availability: "https://schema.org/InStock",
-    itemCondition: "https://schema.org/NewCondition",
-    seller: {
-      "@type": "Organization",
-      name: siteConfig.name,
-      url: siteConfig.url,
-      telephone: siteConfig.phone,
-    },
-  };
-
   if (product.price !== null && product.price !== undefined) {
-    offer.price = Number(product.price).toFixed(2);
+    schema.offers = {
+      "@type": "Offer",
+      url,
+      priceCurrency: "TRY",
+      price: Number(product.price).toFixed(2),
+      availability: "https://schema.org/InStock",
+      itemCondition: "https://schema.org/NewCondition",
+      seller: {
+        "@type": "Organization",
+        name: siteConfig.name,
+        url: siteConfig.url,
+        telephone: siteConfig.phone,
+      },
+    };
   }
-
-  schema.offers = offer;
 
   return schema;
 }

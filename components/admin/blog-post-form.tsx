@@ -7,6 +7,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { createBlogPost, updateBlogPost } from "@/actions/blog";
 import { slugify } from "@/utils/slugify";
+import {
+  SLUG_ERROR_MESSAGE,
+  SLUG_PATTERN,
+} from "@/lib/catalog-validation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -18,7 +22,10 @@ import type { Post } from "@/types";
 
 const postSchema = z.object({
   title: z.string().min(1, "Başlık gereklidir"),
-  slug: z.string().min(1, "Slug gereklidir"),
+  slug: z
+    .string()
+    .min(1, "Slug gereklidir")
+    .regex(SLUG_PATTERN, SLUG_ERROR_MESSAGE),
   excerpt: z.string().optional(),
   content: z
     .string()

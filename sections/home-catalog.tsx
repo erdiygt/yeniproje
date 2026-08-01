@@ -68,7 +68,7 @@ export function HomeCatalogSection({
           <>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
               {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard key={product.id} product={product} titleAs="h3" />
               ))}
             </div>
             <div className="mt-10 text-center">

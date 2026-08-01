@@ -210,6 +210,7 @@ export async function ProductDetail({ product }: ProductDetailProps) {
                       key={item.id}
                       product={item}
                       showPrice={false}
+                      titleAs="h3"
                     />
                   ))}
                 </div>

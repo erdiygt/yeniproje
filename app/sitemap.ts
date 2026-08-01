@@ -1,60 +1,65 @@
-import { MetadataRoute } from "next";
+import type { MetadataRoute } from "next";
 import { siteConfig } from "@/lib/seo";
 import { getPublishedPostsSafe } from "@/lib/blog-data";
 import {
   getPublishedCategoriesSafe,
   getPublishedProductsSafe,
 } from "@/lib/catalog-data";
+import { isReservedRootSlug } from "@/lib/catalog-paths";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [posts, products, categories] = await Promise.all([
-    getPublishedPostsSafe(),
-    getPublishedProductsSafe(),
+  const now = new Date();
+  const [categories, products, posts] = await Promise.all([
     getPublishedCategoriesSafe(),
+    getPublishedProductsSafe(),
+    getPublishedPostsSafe(),
   ]);
 
-  const blogEntries: MetadataRoute.Sitemap = posts.map((post) => ({
-    url: `${siteConfig.url}/blog/${post.slug}`,
-    lastModified: post.updatedAt,
-    changeFrequency: "weekly",
-    priority: 0.7,
-  }));
-
-  const productEntries: MetadataRoute.Sitemap = products.map((product) => ({
-    url: `${siteConfig.url}/${product.slug}`,
-    lastModified: product.updatedAt,
-    changeFrequency: "weekly",
-    priority: 0.8,
-  }));
-
-  const categoryEntries: MetadataRoute.Sitemap = categories.map((category) => ({
-    url: `${siteConfig.url}/${category.slug}`,
-    lastModified: category.updatedAt,
-    changeFrequency: "weekly",
-    priority: 0.7,
-  }));
-
-  return [
+  const pages: MetadataRoute.Sitemap = [
     {
       url: siteConfig.url,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
+      lastModified: now,
+      changeFrequency: "daily",
       priority: 1,
     },
     {
       url: `${siteConfig.url}/urunler`,
-      lastModified: new Date(),
+      lastModified: now,
       changeFrequency: "daily",
-      priority: 0.9,
+      priority: 0.95,
     },
     {
       url: `${siteConfig.url}/blog`,
-      lastModified: new Date(),
+      lastModified: now,
       changeFrequency: "daily",
-      priority: 0.8,
+      priority: 0.95,
     },
-    ...categoryEntries,
-    ...productEntries,
-    ...blogEntries,
   ];
+
+  const categoryEntries: MetadataRoute.Sitemap = categories
+    .filter((category) => !isReservedRootSlug(category.slug))
+    .map((category) => ({
+      url: `${siteConfig.url}/${category.slug}`,
+      lastModified: category.updatedAt,
+      changeFrequency: "daily" as const,
+      priority: 0.95,
+    }));
+
+  const productEntries: MetadataRoute.Sitemap = products
+    .filter((product) => !isReservedRootSlug(product.slug))
+    .map((product) => ({
+      url: `${siteConfig.url}/${product.slug}`,
+      lastModified: product.updatedAt,
+      changeFrequency: "daily" as const,
+      priority: 0.9,
+    }));
+
+  const postEntries: MetadataRoute.Sitemap = posts.map((post) => ({
+    url: `${siteConfig.url}/blog/${post.slug}`,
+    lastModified: post.updatedAt,
+    changeFrequency: "daily" as const,
+    priority: 0.9,
+  }));
+
+  return [...pages, ...categoryEntries, ...productEntries, ...postEntries];
 }

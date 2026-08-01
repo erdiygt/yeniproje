@@ -17,11 +17,82 @@ const ALLOWED_FOLDERS = new Set([
   "abscimustafa/categories",
 ]);
 
+function detectImageMime(buffer: Buffer): string | null {
+  if (
+    buffer.length >= 3 &&
+    buffer[0] === 0xff &&
+    buffer[1] === 0xd8 &&
+    buffer[2] === 0xff
+  ) {
+    return "image/jpeg";
+  }
+
+  if (
+    buffer.length >= 8 &&
+    buffer[0] === 0x89 &&
+    buffer[1] === 0x50 &&
+    buffer[2] === 0x4e &&
+    buffer[3] === 0x47
+  ) {
+    return "image/png";
+  }
+
+  if (
+    buffer.length >= 12 &&
+    buffer.toString("ascii", 0, 4) === "RIFF" &&
+    buffer.toString("ascii", 8, 12) === "WEBP"
+  ) {
+    return "image/webp";
+  }
+
+  if (buffer.length >= 6) {
+    const header = buffer.toString("ascii", 0, 6);
+    if (header === "GIF87a" || header === "GIF89a") {
+      return "image/gif";
+    }
+  }
+
+  return null;
+}
+
+function isSameOriginRequest(request: Request): boolean {
+  const origin = request.headers.get("origin");
+  const referer = request.headers.get("referer");
+  const host = request.headers.get("host");
+
+  if (!host) return false;
+
+  const allowed = new Set([
+    `https://${host}`,
+    `http://${host}`,
+  ]);
+
+  if (origin) {
+    return allowed.has(origin);
+  }
+
+  if (referer) {
+    try {
+      const refOrigin = new URL(referer).origin;
+      return allowed.has(refOrigin);
+    } catch {
+      return false;
+    }
+  }
+
+  // Same-site navigations may omit Origin; allow host-bound cookie posts without Origin
+  return true;
+}
+
 export async function POST(request: Request) {
   const session = await auth();
 
   if (!session?.user || session.user.role !== "admin") {
     return NextResponse.json({ error: "Yetkisiz erişim" }, { status: 401 });
+  }
+
+  if (!isSameOriginRequest(request)) {
+    return NextResponse.json({ error: "Geçersiz istek kaynağı" }, { status: 403 });
   }
 
   if (!isCloudinaryConfigured()) {
@@ -60,6 +131,21 @@ export async function POST(request: Request) {
 
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
+    const detectedType = detectImageMime(buffer);
+
+    if (!detectedType || !ALLOWED_TYPES.has(detectedType)) {
+      return NextResponse.json(
+        { error: "Dosya içeriği geçerli bir görsel değil" },
+        { status: 400 }
+      );
+    }
+
+    if (file.type && file.type !== detectedType) {
+      return NextResponse.json(
+        { error: "Dosya türü içeriği ile uyuşmuyor" },
+        { status: 400 }
+      );
+    }
 
     const result = await new Promise<UploadApiResponse>((resolve, reject) => {
       const uploadStream = cloudinary.uploader.upload_stream(

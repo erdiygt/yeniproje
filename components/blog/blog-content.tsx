@@ -32,7 +32,6 @@ const htmlSanitizeOptions: sanitizeHtml.IOptions = {
     "ul",
     "ol",
     "li",
-    "h1",
     "h2",
     "h3",
     "h4",
@@ -47,6 +46,16 @@ const htmlSanitizeOptions: sanitizeHtml.IOptions = {
     a: ["href", "target", "rel"],
     img: ["src", "alt", "title"],
     "*": ["class"],
+  },
+  transformTags: {
+    h1: "h2",
+    a: (tagName, attribs) => {
+      const next = { ...attribs };
+      if (next.target === "_blank") {
+        next.rel = "noopener noreferrer";
+      }
+      return { tagName, attribs: next };
+    },
   },
 };
 

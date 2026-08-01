@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import type { ElementType } from "react";
 import type { Product } from "@/types";
 import { formatPrice } from "@/utils/format-price";
 import { productPath } from "@/lib/catalog-paths";
@@ -7,9 +8,17 @@ import { productPath } from "@/lib/catalog-paths";
 interface ProductCardProps {
   product: Product;
   showPrice?: boolean;
+  /** Heading level under page H1 — use h3 inside sections that already have an h2 */
+  titleAs?: "h2" | "h3";
 }
 
-export function ProductCard({ product, showPrice = true }: ProductCardProps) {
+export function ProductCard({
+  product,
+  showPrice = true,
+  titleAs = "h2",
+}: ProductCardProps) {
+  const TitleTag = titleAs as ElementType;
+
   return (
     <article>
       <Link
@@ -39,9 +48,9 @@ export function ProductCard({ product, showPrice = true }: ProductCardProps) {
               {product.category.name}
             </span>
           )}
-          <h2 className="font-display text-lg font-bold text-[#101214] transition-colors group-hover:text-primary line-clamp-2">
+          <TitleTag className="font-display text-lg font-bold text-[#101214] transition-colors group-hover:text-primary line-clamp-2">
             {product.title}
-          </h2>
+          </TitleTag>
           {product.shortDescription && (
             <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
               {product.shortDescription}

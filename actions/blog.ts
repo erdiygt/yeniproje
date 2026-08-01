@@ -7,7 +7,14 @@ import {
   createPost,
   updatePost,
   deletePost,
+  getPostById,
 } from "@/services/blog.service";
+import {
+  SLUG_ERROR_MESSAGE,
+  SLUG_PATTERN,
+  assertAllowedMediaUrls,
+} from "@/lib/catalog-validation";
+import { isReservedRootSlug } from "@/lib/catalog-paths";
 import type { PostFormData } from "@/types";
 
 function hasTextContent(value: string): boolean {
@@ -19,29 +26,14 @@ function normalizeOptional(value?: string): string | undefined {
   return trimmed ? trimmed : undefined;
 }
 
-function logPostPayload(phase: string, data: PostFormData) {
-  console.log(`[blog:${phase}]`, {
-    title: data.title,
-    slug: data.slug,
-    content:
-      data.content === undefined
-        ? undefined
-        : data.content === ""
-          ? ""
-          : data.content,
-    contentLength: data.content?.length ?? 0,
-    coverImage: data.coverImage,
-    excerpt: data.excerpt,
-    status: data.status,
-    seoTitle: data.seoTitle,
-    seoDescription: data.seoDescription,
-    publishedAt: data.publishedAt,
-  });
-}
-
 const postDataSchema = z.object({
   title: z.string().trim().min(1, "Başlık gereklidir").max(200),
-  slug: z.string().trim().min(1, "Slug gereklidir").max(200),
+  slug: z
+    .string()
+    .trim()
+    .min(1, "Slug gereklidir")
+    .max(200)
+    .regex(SLUG_PATTERN, SLUG_ERROR_MESSAGE),
   excerpt: z.string().optional(),
   content: z
     .string()
@@ -64,10 +56,10 @@ async function requireAuth() {
   return session;
 }
 
-function normalizePostData(data: PostFormData): PostFormData {
+function validatePostData(data: PostFormData) {
   const normalized: PostFormData = {
     title: data.title.trim(),
-    slug: data.slug.trim(),
+    slug: data.slug.trim().toLowerCase(),
     content: data.content,
     excerpt: normalizeOptional(data.excerpt),
     coverImage: normalizeOptional(data.coverImage),
@@ -83,32 +75,63 @@ function normalizePostData(data: PostFormData): PostFormData {
     normalized.publishedAt = new Date().toISOString();
   }
 
-  return normalized;
-}
-
-function validatePostData(data: PostFormData) {
-  logPostPayload("incoming", data);
-
-  const normalized = normalizePostData(data);
   const result = postDataSchema.safeParse(normalized);
-
   if (!result.success) {
-    console.error("[blog:validation]", result.error.flatten());
-    throw new Error("Geçersiz form verisi. Lütfen zorunlu alanları kontrol edin.");
+    const slugIssue = result.error.issues.find((issue) => issue.path[0] === "slug");
+    throw new Error(
+      slugIssue?.message ||
+        "Geçersiz form verisi. Lütfen zorunlu alanları kontrol edin."
+    );
   }
 
-  logPostPayload("validated", result.data);
+  if (isReservedRootSlug(result.data.slug)) {
+    throw new Error(
+      "Bu slug sistem tarafından kullanılıyor. Lütfen farklı bir slug seçin."
+    );
+  }
+
+  assertAllowedMediaUrls([result.data.coverImage]);
+
   return result.data;
+}
+
+function revalidateBlogPaths(slug?: string | null, previousSlug?: string | null) {
+  revalidatePath("/");
+  revalidatePath("/blog");
+  revalidatePath("/admin/blog");
+
+  for (const value of new Set(
+    [slug, previousSlug].filter((item): item is string => Boolean(item))
+  )) {
+    revalidatePath(`/blog/${value}`);
+  }
+}
+
+function mapPrismaBlogError(error: unknown): never {
+  if (
+    error &&
+    typeof error === "object" &&
+    "code" in error &&
+    typeof (error as { code: unknown }).code === "string"
+  ) {
+    const code = (error as { code: string }).code;
+    if (code === "P2002") {
+      throw new Error("Bu slug zaten kullanılıyor. Lütfen farklı bir slug seçin.");
+    }
+  }
+  throw error;
 }
 
 export async function createBlogPost(data: PostFormData) {
   await requireAuth();
   const validated = validatePostData(data);
-  const post = await createPost(validated);
-  revalidatePath("/blog");
-  revalidatePath("/");
-  revalidatePath(`/blog/${post.slug}`);
-  return post;
+  try {
+    const post = await createPost(validated);
+    revalidateBlogPaths(post.slug);
+    return post;
+  } catch (error) {
+    mapPrismaBlogError(error);
+  }
 }
 
 export async function updateBlogPost(id: string, data: PostFormData) {
@@ -116,12 +139,20 @@ export async function updateBlogPost(id: string, data: PostFormData) {
   if (!id?.trim()) {
     throw new Error("Geçersiz form verisi.");
   }
+
+  const existing = await getPostById(id);
+  if (!existing) {
+    throw new Error("Yazı bulunamadı.");
+  }
+
   const validated = validatePostData(data);
-  const post = await updatePost(id, validated);
-  revalidatePath("/blog");
-  revalidatePath(`/blog/${post.slug}`);
-  revalidatePath("/");
-  return post;
+  try {
+    const post = await updatePost(id, validated);
+    revalidateBlogPaths(post.slug, existing.slug);
+    return post;
+  } catch (error) {
+    mapPrismaBlogError(error);
+  }
 }
 
 export async function deleteBlogPost(id: string) {
@@ -129,7 +160,12 @@ export async function deleteBlogPost(id: string) {
   if (!id?.trim()) {
     throw new Error("Geçersiz form verisi.");
   }
+
+  const existing = await getPostById(id);
+  if (!existing) {
+    throw new Error("Yazı bulunamadı.");
+  }
+
   await deletePost(id);
-  revalidatePath("/blog");
-  revalidatePath("/");
+  revalidateBlogPaths(existing.slug);
 }

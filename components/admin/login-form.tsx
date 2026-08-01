@@ -16,6 +16,10 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
+import {
+  TurnstileWidget,
+  resetTurnstile,
+} from "@/components/admin/turnstile-widget";
 
 const loginSchema = z.object({
   email: z.string().email("Geçerli bir e-posta adresi girin"),
@@ -29,11 +33,16 @@ export function LoginForm() {
   const searchParams = useSearchParams();
   const rawCallbackUrl = searchParams.get("callbackUrl") || "/admin";
   const callbackUrl =
-    rawCallbackUrl.startsWith("/admin") && !rawCallbackUrl.startsWith("//")
+    rawCallbackUrl === "/admin" ||
+    (rawCallbackUrl.startsWith("/admin/") &&
+      !rawCallbackUrl.startsWith("//") &&
+      !rawCallbackUrl.includes("..") &&
+      !rawCallbackUrl.includes("\\"))
       ? rawCallbackUrl
       : "/admin";
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
 
   const {
     register,
@@ -44,24 +53,39 @@ export function LoginForm() {
   });
 
   const onSubmit = async (data: LoginForm) => {
+    if (!turnstileToken) {
+      setError("Lütfen güvenlik doğrulamasını tamamlayın.");
+      return;
+    }
+
     setIsLoading(true);
     setError(null);
 
-    const result = await loginAction(data.email, data.password);
+    const result = await loginAction(
+      data.email,
+      data.password,
+      callbackUrl,
+      turnstileToken
+    );
 
     if (result.success) {
       router.push(callbackUrl);
       router.refresh();
-    } else {
-      setError(result.error || "Giriş başarısız.");
-      setIsLoading(false);
+      return;
     }
+
+    setError(result.error || "Giriş başarısız.");
+    setTurnstileToken(null);
+    resetTurnstile();
+    setIsLoading(false);
   };
 
   return (
     <Card className="w-full max-w-md">
       <CardHeader className="text-center">
-        <CardTitle className="font-display text-2xl text-[#101214]">Yönetim Paneli</CardTitle>
+        <CardTitle className="font-display text-2xl text-[#101214]">
+          Yönetim Paneli
+        </CardTitle>
         <CardDescription>Devam etmek için giriş yapın</CardDescription>
       </CardHeader>
       <CardContent>
@@ -102,7 +126,14 @@ export function LoginForm() {
             )}
           </div>
 
-          <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
+          <TurnstileWidget onToken={setTurnstileToken} />
+
+          <Button
+            type="submit"
+            className="w-full"
+            size="lg"
+            disabled={isLoading || !turnstileToken}
+          >
             {isLoading ? "Giriş yapılıyor..." : "Giriş Yap"}
           </Button>
         </form>

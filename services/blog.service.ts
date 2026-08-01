@@ -1,21 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import type { Post, PostFormData } from "@/types";
 
-function logPrismaPayload(phase: "create" | "update", data: PostFormData) {
-  console.log(`[blog:prisma:${phase}:before]`, {
-    title: data.title,
-    slug: data.slug,
-    content: data.content,
-    contentLength: data.content?.length ?? 0,
-    coverImage: data.coverImage,
-    excerpt: data.excerpt,
-    status: data.status,
-    seoTitle: data.seoTitle,
-    seoDescription: data.seoDescription,
-    publishedAt: data.publishedAt,
-  });
-}
-
 export async function getPublishedPosts(limit?: number): Promise<Post[]> {
   const posts = await prisma.post.findMany({
     where: { status: "published" },
@@ -47,8 +32,6 @@ export async function getPostById(id: string): Promise<Post | null> {
 }
 
 export async function createPost(data: PostFormData): Promise<Post> {
-  logPrismaPayload("create", data);
-
   const post = await prisma.post.create({
     data: {
       title: data.title,
@@ -71,8 +54,6 @@ export async function updatePost(
   id: string,
   data: PostFormData
 ): Promise<Post> {
-  logPrismaPayload("update", data);
-
   const post = await prisma.post.update({
     where: { id },
     data: {

@@ -1,17 +1,12 @@
-"use client";
-
 import Image from "next/image";
 import { referenceLogos } from "@/lib/data/references";
 import { SectionHeading } from "@/components/common/section-heading";
 
 type ReferenceLogo = (typeof referenceLogos)[number];
 
-function createInfiniteTrack(
-  logos: readonly ReferenceLogo[],
-  repeats = 6
-): ReferenceLogo[] {
-  const segment = Array.from({ length: repeats }, () => [...logos]).flat();
-  return [...segment, ...segment];
+/** Two copies are enough for a seamless CSS marquee loop */
+function createInfiniteTrack(logos: readonly ReferenceLogo[]): ReferenceLogo[] {
+  return [...logos, ...logos];
 }
 
 function LogoRow({
@@ -25,7 +20,7 @@ function LogoRow({
   delay: number;
   className?: string;
 }) {
-  const track = createInfiniteTrack(logos, 6);
+  const track = createInfiniteTrack(logos);
 
   return (
     <div className={`overflow-hidden ${className ?? ""}`}>
@@ -36,21 +31,26 @@ function LogoRow({
           animationDelay: `${delay}s`,
         }}
       >
-        {track.map((logo, index) => (
-          <div
-            key={`${logo.name}-${index}`}
-            className="flex h-11 w-32 shrink-0 items-center justify-center sm:h-14 sm:w-44 lg:h-16 lg:w-48"
-          >
-            <Image
-              src={logo.src}
-              alt={`${logo.name} logosu`}
-              width={200}
-              height={64}
-              className="h-9 w-auto max-w-[118px] object-contain grayscale opacity-55 sm:h-11 sm:max-w-[180px] sm:opacity-60 lg:h-14 lg:max-w-[210px]"
-              loading="lazy"
-            />
-          </div>
-        ))}
+        {track.map((logo, index) => {
+          const isDuplicate = index >= logos.length;
+          return (
+            <div
+              key={`${logo.name}-${index}`}
+              className="flex h-11 w-32 shrink-0 items-center justify-center sm:h-14 sm:w-44 lg:h-16 lg:w-48"
+              aria-hidden={isDuplicate ? true : undefined}
+            >
+              <Image
+                src={logo.src}
+                alt={isDuplicate ? "" : `${logo.name} logosu`}
+                width={200}
+                height={64}
+                className="h-9 w-auto max-w-[118px] object-contain grayscale opacity-55 sm:h-11 sm:max-w-[180px] sm:opacity-60 lg:h-14 lg:max-w-[210px]"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          );
+        })}
       </div>
     </div>
   );
