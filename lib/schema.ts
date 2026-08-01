@@ -1,4 +1,5 @@
 import { siteConfig } from "@/lib/seo";
+import { productPath } from "@/lib/catalog-paths";
 
 export function getOrganizationSchema() {
   return {
@@ -150,7 +151,7 @@ export function getProductSchema(product: {
   publishedAt?: Date | null;
   updatedAt?: Date | null;
 }) {
-  const url = `${siteConfig.url}/urunler/${product.slug}`;
+  const url = `${siteConfig.url}${productPath(product.slug)}`;
   const description =
     product.seoDescription?.trim() ||
     product.shortDescription?.trim() ||

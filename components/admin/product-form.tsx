@@ -263,7 +263,7 @@ export function ProductForm({ product, categories }: ProductFormProps) {
                   id="price"
                   type="text"
                   inputMode="decimal"
-                  placeholder="Boş bırakılırsa: Fiyat sorun"
+                  placeholder="Boş bırakılırsa: Detaylar"
                   {...register("price")}
                 />
               </div>

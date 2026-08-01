@@ -9,8 +9,9 @@ import {
   deleteCategory,
   getCategoryById,
 } from "@/services/category.service";
+import { getProductBySlug } from "@/services/product.service";
 import type { CategoryFormData } from "@/types";
-import { isReservedCategorySlug } from "@/lib/catalog-paths";
+import { isReservedRootSlug } from "@/lib/catalog-paths";
 import {
   SLUG_ERROR_MESSAGE,
   SLUG_PATTERN,
@@ -72,13 +73,22 @@ function validateCategoryData(data: CategoryFormData) {
     );
   }
 
-  if (isReservedCategorySlug(result.data.slug)) {
+  if (isReservedRootSlug(result.data.slug)) {
     throw new Error(
       "Bu slug sistem tarafından kullanılıyor. Lütfen farklı bir slug seçin."
     );
   }
 
   return result.data;
+}
+
+async function assertCategorySlugAvailable(slug: string) {
+  const product = await getProductBySlug(slug);
+  if (product) {
+    throw new Error(
+      "Bu slug bir ürün tarafından kullanılıyor. Lütfen farklı bir slug seçin."
+    );
+  }
 }
 
 function revalidateCatalogPaths(
@@ -115,6 +125,7 @@ function mapPrismaCatalogError(error: unknown): never {
 export async function createCategoryAction(data: CategoryFormData) {
   await requireAuth();
   const validated = validateCategoryData(data);
+  await assertCategorySlugAvailable(validated.slug);
   try {
     const category = await createCategory(validated);
     revalidateCatalogPaths(category.slug);
@@ -136,6 +147,7 @@ export async function updateCategoryAction(id: string, data: CategoryFormData) {
   }
 
   const validated = validateCategoryData(data);
+  await assertCategorySlugAvailable(validated.slug);
   try {
     const category = await updateCategory(id, validated);
     revalidateCatalogPaths(category.slug, existing.slug);

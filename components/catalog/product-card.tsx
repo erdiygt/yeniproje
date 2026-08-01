@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Product } from "@/types";
 import { formatPrice } from "@/utils/format-price";
+import { productPath } from "@/lib/catalog-paths";
 
 interface ProductCardProps {
   product: Product;
@@ -12,7 +13,7 @@ export function ProductCard({ product, showPrice = true }: ProductCardProps) {
   return (
     <article>
       <Link
-        href={`/urunler/${product.slug}`}
+        href={productPath(product.slug)}
         className="group block overflow-hidden rounded-2xl border border-border bg-white transition-shadow hover:shadow-lg"
       >
         <div className="relative aspect-[4/3] overflow-hidden bg-secondary">

@@ -16,6 +16,8 @@ export function HomeCatalogSection({
     return null;
   }
 
+  const visibleCategories = categories.slice(0, 10);
+
   return (
     <section
       className="bg-[#F7F9FC] py-12 sm:py-16 lg:py-20"
@@ -48,7 +50,7 @@ export function HomeCatalogSection({
               >
                 Tümü
               </Link>
-              {categories.map((category) => (
+              {visibleCategories.map((category) => (
                 <Link
                   key={category.id}
                   href={categoryPath(category.slug)}

@@ -22,6 +22,11 @@ const nextConfig: NextConfig = {
         destination: "/:slug",
         permanent: true,
       },
+      {
+        source: "/urunler/:slug",
+        destination: "/:slug",
+        permanent: true,
+      },
     ];
   },
   experimental: {

@@ -1,4 +1,4 @@
-export const RESERVED_CATEGORY_SLUGS = new Set([
+export const RESERVED_ROOT_SLUGS = new Set([
   "admin",
   "api",
   "blog",
@@ -17,14 +17,22 @@ export const RESERVED_CATEGORY_SLUGS = new Set([
   "_next",
 ]);
 
+/** @deprecated Use RESERVED_ROOT_SLUGS / isReservedRootSlug */
+export const RESERVED_CATEGORY_SLUGS = RESERVED_ROOT_SLUGS;
+
 export function categoryPath(slug: string): string {
   return `/${slug}`;
 }
 
 export function productPath(slug: string): string {
-  return `/urunler/${slug}`;
+  return `/${slug}`;
 }
 
+export function isReservedRootSlug(slug: string): boolean {
+  return RESERVED_ROOT_SLUGS.has(slug.trim().toLowerCase());
+}
+
+/** @deprecated Use isReservedRootSlug */
 export function isReservedCategorySlug(slug: string): boolean {
-  return RESERVED_CATEGORY_SLUGS.has(slug.trim().toLowerCase());
+  return isReservedRootSlug(slug);
 }

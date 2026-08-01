@@ -87,7 +87,7 @@ export function ProductList({ products }: ProductListProps) {
                 <div className="flex items-center justify-end gap-1">
                   {product.status === "published" && (
                     <Button variant="ghost" size="icon" asChild>
-                      <Link href={`/urunler/${product.slug}`} target="_blank">
+                      <Link href={`/${product.slug}`} target="_blank">
                         <Eye className="h-4 w-4" />
                       </Link>
                     </Button>

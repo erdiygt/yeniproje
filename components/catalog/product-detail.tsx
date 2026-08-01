@@ -1,9 +1,7 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { Phone, Share2 } from "lucide-react";
-import { generateSEO, siteConfig } from "@/lib/seo";
+import { siteConfig } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/json-ld";
 import { getBreadcrumbSchema, getProductSchema } from "@/lib/schema";
 import { Header } from "@/components/layout/header";
@@ -12,52 +10,15 @@ import { BlogContent } from "@/components/blog/blog-content";
 import { Breadcrumb } from "@/components/common/breadcrumb";
 import { ProductGallery } from "@/components/catalog/product-gallery";
 import { ProductCard } from "@/components/catalog/product-card";
-import {
-  getPublishedProductsSafe,
-  getProductBySlugSafe,
-} from "@/lib/catalog-data";
 import { categoryPath, productPath } from "@/lib/catalog-paths";
 import { getRelatedProducts } from "@/services/product.service";
 import type { Product } from "@/types";
 
-interface ProductPageProps {
-  params: Promise<{ slug: string }>;
+interface ProductDetailProps {
+  product: Product;
 }
 
-export async function generateStaticParams() {
-  const products = await getPublishedProductsSafe();
-  return products.map((product) => ({ slug: product.slug }));
-}
-
-export async function generateMetadata({
-  params,
-}: ProductPageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const product = await getProductBySlugSafe(slug);
-
-  if (!product || product.status !== "published") {
-    return generateSEO({ title: "Ürün Bulunamadı", noIndex: true });
-  }
-
-  return generateSEO({
-    title: product.seoTitle || product.title,
-    description:
-      product.seoDescription ||
-      product.shortDescription ||
-      undefined,
-    image: product.coverImage || undefined,
-    canonical: `${siteConfig.url}/urunler/${product.slug}`,
-  });
-}
-
-export default async function ProductDetailPage({ params }: ProductPageProps) {
-  const { slug } = await params;
-  const product = await getProductBySlugSafe(slug);
-
-  if (!product || product.status !== "published") {
-    notFound();
-  }
-
+export async function ProductDetail({ product }: ProductDetailProps) {
   let relatedProducts: Product[] = [];
   try {
     relatedProducts = await getRelatedProducts(
@@ -97,10 +58,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
     ? `${product.category.name} Kategorisindeki Diğer Ürünler`
     : "Benzer Ürünler";
 
-  const breadcrumbItems = [
-    { name: "Ana Sayfa", url: siteConfig.url },
-    { name: "Ürünler", url: `${siteConfig.url}/urunler` },
-  ];
+  const breadcrumbItems = [{ name: "Ana Sayfa", url: siteConfig.url }];
 
   if (product.category) {
     breadcrumbItems.push({
@@ -111,7 +69,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
 
   breadcrumbItems.push({
     name: product.title,
-    url: `${siteConfig.url}${productPath(product.slug)}`,
+    url: productUrl,
   });
 
   const breadcrumbSchema = getBreadcrumbSchema(breadcrumbItems);
@@ -119,7 +77,6 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
 
   const visualBreadcrumbs = [
     { name: "Ana Sayfa", href: "/" },
-    { name: "Ürünler", href: "/urunler" },
     ...(product.category
       ? [
           {
@@ -146,16 +103,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
               />
 
               <div>
-                {product.category && (
-                  <Link
-                    href={categoryPath(product.category.slug)}
-                    className="inline-flex rounded-full border border-[#165FC7]/40 px-3 py-1 font-text text-[11px] font-semibold uppercase tracking-[0.08em] text-[#165FC7]"
-                  >
-                    {product.category.name}
-                  </Link>
-                )}
-
-                <h1 className="mt-4 font-display text-[28px] font-bold leading-[1.15] tracking-[-0.02em] text-[#101214] sm:text-[36px]">
+                <h1 className="font-display text-[28px] font-bold leading-[1.15] tracking-[-0.02em] text-[#101214] sm:text-[36px]">
                   {product.title}
                 </h1>
 

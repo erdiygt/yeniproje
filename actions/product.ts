@@ -9,6 +9,8 @@ import {
   deleteProduct,
   getProductById,
 } from "@/services/product.service";
+import { getCategoryBySlug } from "@/services/category.service";
+import { isReservedRootSlug } from "@/lib/catalog-paths";
 import {
   SLUG_ERROR_MESSAGE,
   SLUG_PATTERN,
@@ -93,6 +95,21 @@ function validateProductData(data: ProductFormData) {
   return result.data;
 }
 
+async function assertProductSlugAvailable(slug: string) {
+  if (isReservedRootSlug(slug)) {
+    throw new Error(
+      "Bu slug sistem tarafından kullanılıyor. Lütfen farklı bir slug seçin."
+    );
+  }
+
+  const category = await getCategoryBySlug(slug);
+  if (category) {
+    throw new Error(
+      "Bu slug bir kategori tarafından kullanılıyor. Lütfen farklı bir slug seçin."
+    );
+  }
+}
+
 function revalidateProductPaths(
   slug?: string | null,
   categorySlug?: string | null,
@@ -100,18 +117,13 @@ function revalidateProductPaths(
   previousCategorySlug?: string | null
 ) {
   revalidatePath("/");
+  revalidatePath("/", "layout");
   revalidatePath("/urunler");
   revalidatePath("/admin/products");
 
   for (const value of new Set(
-    [slug, previousSlug].filter((item): item is string => Boolean(item))
-  )) {
-    revalidatePath(`/urunler/${value}`);
-  }
-
-  for (const value of new Set(
-    [categorySlug, previousCategorySlug].filter((item): item is string =>
-      Boolean(item)
+    [slug, previousSlug, categorySlug, previousCategorySlug].filter(
+      (item): item is string => Boolean(item)
     )
   )) {
     revalidatePath(`/${value}`);
@@ -139,6 +151,7 @@ function mapPrismaCatalogError(error: unknown): never {
 export async function createProductAction(data: ProductFormData) {
   await requireAuth();
   const validated = validateProductData(data);
+  await assertProductSlugAvailable(validated.slug);
   try {
     const product = await createProduct(validated);
     revalidateProductPaths(product.slug, product.category?.slug);
@@ -160,6 +173,7 @@ export async function updateProductAction(id: string, data: ProductFormData) {
   }
 
   const validated = validateProductData(data);
+  await assertProductSlugAvailable(validated.slug);
   try {
     const product = await updateProduct(id, validated);
     revalidateProductPaths(

@@ -308,7 +308,7 @@ export default async function AdminDashboardPage() {
                       {product.status === "published" && (
                         <Button variant="ghost" size="icon" asChild>
                           <Link
-                            href={`/urunler/${product.slug}`}
+                            href={`/${product.slug}`}
                             target="_blank"
                           >
                             <Eye className="h-4 w-4" />

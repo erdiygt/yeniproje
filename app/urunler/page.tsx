@@ -16,7 +16,7 @@ import {
   getPublishedCategoriesSafe,
   getPublishedProductsPageSafe,
 } from "@/lib/catalog-data";
-import { categoryPath } from "@/lib/catalog-paths";
+import { categoryPath, productPath } from "@/lib/catalog-paths";
 import {
   PRODUCTS_PER_PAGE,
   buildCanonicalUrl,
@@ -72,7 +72,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   const itemListSchema = getItemListSchema(
     products.map((product) => ({
       name: product.title,
-      url: `${siteConfig.url}/urunler/${product.slug}`,
+      url: `${siteConfig.url}${productPath(product.slug)}`,
     })),
     "Ürünler"
   );
