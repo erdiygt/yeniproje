@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { signOut, auth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { FileText, FolderTree, LogOut, Package } from "lucide-react";
@@ -12,7 +13,9 @@ export const metadata: Metadata = generateSEO({
 
 async function handleSignOut() {
   "use server";
-  await signOut({ redirectTo: "/admin/login" });
+  // redirect:false — AUTH_URL (localhost) Location header'ını kullanmasın
+  await signOut({ redirect: false });
+  redirect("/");
 }
 
 export default async function AdminLayout({
