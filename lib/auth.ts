@@ -3,6 +3,8 @@ import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 
+const ROLE_REFRESH_MS = 5 * 60 * 1000;
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Credentials({
@@ -54,13 +56,42 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (user) {
         token.id = user.id;
         token.role = (user as { role?: string }).role;
+        token.roleCheckedAt = Date.now();
+        return token;
       }
+
+      if (!token.id) {
+        return token;
+      }
+
+      const checkedAt = typeof token.roleCheckedAt === "number" ? token.roleCheckedAt : 0;
+      if (Date.now() - checkedAt < ROLE_REFRESH_MS) {
+        return token;
+      }
+
+      try {
+        const dbUser = await prisma.user.findUnique({
+          where: { id: token.id as string },
+          select: { role: true },
+        });
+
+        if (!dbUser) {
+          return { ...token, id: undefined, role: undefined, roleCheckedAt: Date.now() };
+        }
+
+        token.role = dbUser.role;
+        token.roleCheckedAt = Date.now();
+      } catch {
+        // Keep existing token role if DB is temporarily unavailable
+        token.roleCheckedAt = Date.now();
+      }
+
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id as string;
-        session.user.role = token.role as string;
+        session.user.role = (token.role as string) || "";
       }
       return session;
     },

@@ -252,6 +252,15 @@ h6 {
   animation: marquee-right 80s linear infinite;
 }
 
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 /* Focus visible */
 :focus-visible {
   outline: 2px solid var(--ring);

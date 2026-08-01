@@ -23,7 +23,7 @@ export function DarkCTASection() {
               id="dark-cta-heading"
               className="font-display text-[22px] font-bold leading-tight text-white sm:text-[28px] lg:text-[34px]"
             >
-              ABS Beyninizi Güvenle Onarın
+              ABS Beyni Tamiri & Satışı İçin Güvenilir Adres
             </h2>
 
             <p className="mt-4 max-w-2xl font-text text-sm leading-[1.65] text-white/85 sm:mt-5 sm:text-[17px] lg:mt-6">

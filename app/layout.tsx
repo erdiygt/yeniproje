@@ -18,7 +18,10 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
       className={`${displayFont.variable} ${textFont.variable} h-full`}
     >
-      <body className="min-h-full flex flex-col font-text antialiased">
+      <body
+        className="min-h-full flex flex-col font-text antialiased"
+        suppressHydrationWarning
+      >
         <SmoothScrollProvider />
         {children}
         <FloatingContactButtons />

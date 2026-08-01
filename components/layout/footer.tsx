@@ -8,6 +8,7 @@ import { getPublishedPostsSafe } from "@/lib/blog-data";
 
 const quickLinks = [
   { label: "Hakkımızda", href: "/#hakkimizda" },
+  { label: "Ürünler", href: "/urunler" },
   { label: "SSS", href: "/#sss" },
   { label: "İletişim", href: "/#iletisim" },
   { label: "Blog", href: "/blog" },
@@ -18,32 +19,6 @@ function FooterHeading({ children }: { children: ReactNode }) {
     <h3 className="mb-4 font-display text-[11px] font-bold uppercase tracking-[0.12em] text-[#101214]">
       {children}
     </h3>
-  );
-}
-
-function SocialIconButton({
-  href,
-  label,
-  children,
-  variant = "default",
-}: {
-  href: string;
-  label: string;
-  children: ReactNode;
-  variant?: "default" | "whatsapp";
-}) {
-  return (
-    <a
-      href={href}
-      aria-label={label}
-      className={
-        variant === "whatsapp"
-          ? "flex h-9 w-9 items-center justify-center rounded-full bg-[#25D366] text-white transition-colors hover:bg-[#20BD5A]"
-          : "flex h-9 w-9 items-center justify-center rounded-full bg-[#F3F4F6] text-[#374151] transition-colors hover:bg-[#E5E7EB] hover:text-[#101214]"
-      }
-    >
-      {children}
-    </a>
   );
 }
 
@@ -58,10 +33,10 @@ export async function Footer() {
         <div className="mx-auto max-w-4xl mt-12 sm:mt-16 lg:mt-20 -mb-10 sm:-mb-12 lg:-mb-14">
           <div className="flex flex-col items-start justify-between gap-5 rounded-[28px] bg-white px-6 py-7 shadow-[0_8px_40px_rgba(16,18,20,0.08)] sm:px-8 sm:py-8 lg:flex-row lg:items-center lg:rounded-[32px] lg:px-10 lg:py-9">
             <h2 className="font-display text-[20px] font-bold leading-tight text-[#101214] sm:text-[26px] lg:max-w-md lg:text-[28px]">
-              ABS beyni tamiri için güvenilir adres.
+              ABS Beyni tamir & satışı için güvenilir adres
             </h2>
 
-            <div className="flex shrink-0 flex-col items-start gap-1.5 lg:items-end">
+            <div className="flex shrink-0 flex-wrap items-center gap-2.5 lg:justify-end">
               <a
                 href={`tel:${siteConfig.phone}`}
                 className="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-[#165FC7] px-6 font-text text-sm font-semibold text-white transition-colors hover:bg-[#124DA3]"
@@ -69,9 +44,22 @@ export async function Footer() {
                 <Phone className="h-4 w-4" strokeWidth={2} />
                 Hemen Ara
               </a>
-              <p className="font-text text-[11px] text-[#6B7280] lg:text-right">
-                WhatsApp ve telefon ile hızlı ulaşın.
-              </p>
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-[#25D366] px-6 font-text text-sm font-semibold text-white transition-colors hover:bg-[#20BD5A]"
+              >
+                <Image
+                  src="/icons/whatsapp.svg"
+                  alt=""
+                  width={16}
+                  height={16}
+                  className="h-4 w-4 brightness-0 invert"
+                  aria-hidden="true"
+                />
+                WhatsApp
+              </a>
             </div>
           </div>
         </div>
@@ -168,28 +156,9 @@ export async function Footer() {
       </div>
 
       <div className="border-t border-[#E5E7EB] bg-white">
-        <div className="container-site flex flex-col gap-4 py-5 sm:flex-row sm:items-center sm:justify-between lg:py-6">
-          <div className="flex flex-wrap items-center gap-3">
-            <SocialIconButton href={whatsappUrl} label="WhatsApp" variant="whatsapp">
-              <Image
-                src="/icons/whatsapp.svg"
-                alt=""
-                width={16}
-                height={16}
-                className="brightness-0 invert"
-                aria-hidden="true"
-              />
-            </SocialIconButton>
-            <SocialIconButton href={`tel:${siteConfig.phone}`} label="Telefon">
-              <Phone className="h-4 w-4" strokeWidth={1.75} />
-            </SocialIconButton>
-            <SocialIconButton href={`mailto:${siteConfig.email}`} label="E-posta">
-              <Mail className="h-4 w-4" strokeWidth={1.75} />
-            </SocialIconButton>
-          </div>
-
-          <p className="font-text text-xs text-[#6B7280] sm:text-right">
-            © {currentYear} abscimustafa.com.tr
+        <div className="container-site py-5 lg:py-6">
+          <p className="text-center font-text text-xs text-[#6B7280]">
+            Tüm Hakları Saklıdır. © {currentYear} abscimustafa.com.tr
           </p>
         </div>
       </div>

@@ -10,6 +10,7 @@ import {
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/sections/hero";
+import { HomeCatalogSection } from "@/sections/home-catalog";
 import { ReferencesSection } from "@/sections/references";
 import { AboutSection } from "@/sections/about";
 import { WhyUsSection } from "@/sections/why-us";
@@ -20,11 +21,24 @@ import { BlogPreviewSection } from "@/sections/blog-preview";
 import { FAQSection } from "@/sections/faq";
 import { faqItems } from "@/lib/data/faq";
 import { getPublishedPostsSafe } from "@/lib/blog-data";
+import {
+  getPublishedCategoriesSafe,
+  getPublishedProductsSafe,
+} from "@/lib/catalog-data";
 
-export const metadata: Metadata = generateSEO();
+export const metadata: Metadata = generateSEO({
+  title: "ABS'ci Mustafa: ABS Beyni Tamir & Satış",
+  description:
+    "ABS beyni tamiri ve satış konusunda sektörün lider firması abscimustafa.com.tr'den profesyonel destek alın.",
+  absoluteTitle: true,
+});
 
 export default async function HomePage() {
-  const posts = await getPublishedPostsSafe(2);
+  const [posts, products, categories] = await Promise.all([
+    getPublishedPostsSafe(2),
+    getPublishedProductsSafe(9),
+    getPublishedCategoriesSafe(),
+  ]);
 
   const schemas = [
     getOrganizationSchema(),
@@ -44,6 +58,7 @@ export default async function HomePage() {
       <Header />
       <main>
         <HeroSection />
+        <HomeCatalogSection categories={categories} products={products} />
         <ReferencesSection />
         <AboutSection />
         <TestimonialsSection />

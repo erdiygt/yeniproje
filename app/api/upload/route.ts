@@ -10,7 +10,12 @@ const ALLOWED_TYPES = new Set([
   "image/webp",
   "image/gif",
 ]);
-const UPLOAD_FOLDER = "abscimustafa/blog";
+const DEFAULT_UPLOAD_FOLDER = "abscimustafa/blog";
+const ALLOWED_FOLDERS = new Set([
+  "abscimustafa/blog",
+  "abscimustafa/products",
+  "abscimustafa/categories",
+]);
 
 export async function POST(request: Request) {
   const session = await auth();
@@ -29,6 +34,11 @@ export async function POST(request: Request) {
   try {
     const formData = await request.formData();
     const file = formData.get("file");
+    const requestedFolder = formData.get("folder");
+    const folder =
+      typeof requestedFolder === "string" && ALLOWED_FOLDERS.has(requestedFolder)
+        ? requestedFolder
+        : DEFAULT_UPLOAD_FOLDER;
 
     if (!(file instanceof File)) {
       return NextResponse.json({ error: "Dosya bulunamadı" }, { status: 400 });
@@ -54,7 +64,7 @@ export async function POST(request: Request) {
     const result = await new Promise<UploadApiResponse>((resolve, reject) => {
       const uploadStream = cloudinary.uploader.upload_stream(
         {
-          folder: UPLOAD_FOLDER,
+          folder,
           resource_type: "image",
           transformation: [{ quality: "auto", fetch_format: "auto" }],
         },

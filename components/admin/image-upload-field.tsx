@@ -20,9 +20,12 @@ interface UploadResponse {
   error?: string;
 }
 
-async function uploadImage(file: File): Promise<string> {
+async function uploadImage(file: File, folder?: string): Promise<string> {
   const formData = new FormData();
   formData.append("file", file);
+  if (folder) {
+    formData.append("folder", folder);
+  }
 
   const response = await fetch("/api/upload", {
     method: "POST",
@@ -44,7 +47,8 @@ export function ImageUploadField({
   value = "",
   onChange,
   placeholder = "https://res.cloudinary.com/.../gorsel.jpg",
-}: ImageUploadFieldProps) {
+  folder,
+}: ImageUploadFieldProps & { folder?: string }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -54,7 +58,7 @@ export function ImageUploadField({
     setError(null);
 
     try {
-      const url = await uploadImage(file);
+      const url = await uploadImage(file, folder);
       onChange(url);
     } catch (uploadError) {
       setError(

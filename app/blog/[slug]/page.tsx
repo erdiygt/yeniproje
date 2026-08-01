@@ -10,6 +10,7 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { RelatedPosts } from "@/components/blog/related-posts";
 import { BlogContent } from "@/components/blog/blog-content";
+import { Breadcrumb } from "@/components/common/breadcrumb";
 import { getPublishedPostsSafe } from "@/lib/blog-data";
 import {
   getPostBySlug,
@@ -91,10 +92,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       href: `https://www.facebook.com/sharer/sharer.php?u=${encodedPostUrl}`,
     },
     {
-      label: "LinkedIn",
-      href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedPostUrl}`,
-    },
-    {
       label: "X",
       href: `https://twitter.com/intent/tweet?text=${encodedShareTitle}&url=${encodedPostUrl}`,
     },
@@ -113,26 +110,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   {post.title}
                 </h1>
 
-                <nav
-                  aria-label="Breadcrumb"
-                  className="mt-4 flex flex-wrap items-center gap-2 font-text text-sm text-[#6B7280]"
-                >
-                  <Link
-                    href="/"
-                    className="transition-colors hover:text-[#165FC7]"
-                  >
-                    Ana Sayfa
-                  </Link>
-                  <span aria-hidden="true">/</span>
-                  <Link
-                    href="/blog"
-                    className="transition-colors hover:text-[#165FC7]"
-                  >
-                    Blog
-                  </Link>
-                  <span aria-hidden="true">/</span>
-                  <span className="text-[#101214]">{post.title}</span>
-                </nav>
+                <Breadcrumb
+                  className="mt-4"
+                  items={[
+                    { name: "Ana Sayfa", href: "/" },
+                    { name: "Blog", href: "/blog" },
+                    { name: post.title },
+                  ]}
+                />
 
                 <div className="mt-5 flex flex-wrap items-center gap-3 text-left">
                   {post.publishedAt && (

@@ -124,3 +124,123 @@ export function getWebSiteSchema() {
     },
   };
 }
+
+function stripHtml(value: string): string {
+  return value
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;/gi, "'")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/** Product JSON-LD — ürün alanlarından otomatik üretilir */
+export function getProductSchema(product: {
+  title: string;
+  slug: string;
+  shortDescription?: string | null;
+  content?: string | null;
+  seoDescription?: string | null;
+  coverImage?: string | null;
+  gallery?: string[] | null;
+  price?: number | null;
+  category?: { name: string } | null;
+  publishedAt?: Date | null;
+  updatedAt?: Date | null;
+}) {
+  const url = `${siteConfig.url}/urunler/${product.slug}`;
+  const description =
+    product.seoDescription?.trim() ||
+    product.shortDescription?.trim() ||
+    (product.content ? stripHtml(product.content) : "") ||
+    product.title;
+
+  const images = [
+    product.coverImage,
+    ...(product.gallery || []),
+  ].filter((image): image is string => Boolean(image));
+
+  const brandName = product.category?.name || siteConfig.name;
+
+  const schema: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.title,
+    description: description.slice(0, 5000),
+    sku: product.slug,
+    url,
+    image: images.length > 0 ? images : `${siteConfig.url}/icon.png`,
+    brand: {
+      "@type": "Brand",
+      name: brandName,
+    },
+    itemCondition: "https://schema.org/NewCondition",
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": url,
+    },
+  };
+
+  if (product.category?.name) {
+    schema.category = product.category.name;
+  }
+
+  if (product.publishedAt) {
+    schema.releaseDate = product.publishedAt.toISOString();
+  }
+
+  const offer: Record<string, unknown> = {
+    "@type": "Offer",
+    url,
+    priceCurrency: "TRY",
+    availability: "https://schema.org/InStock",
+    itemCondition: "https://schema.org/NewCondition",
+    seller: {
+      "@type": "Organization",
+      name: siteConfig.name,
+      url: siteConfig.url,
+      telephone: siteConfig.phone,
+    },
+  };
+
+  if (product.price !== null && product.price !== undefined) {
+    offer.price = Number(product.price).toFixed(2);
+  }
+
+  schema.offers = offer;
+
+  return schema;
+}
+
+export function getCollectionPageSchema(page: {
+  name: string;
+  description: string;
+  url: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: page.name,
+    description: page.description,
+    url: page.url,
+  };
+}
+
+export function getItemListSchema(
+  items: { name: string; url: string }[],
+  listName: string
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: listName,
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      url: item.url,
+    })),
+  };
+}

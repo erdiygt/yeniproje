@@ -8,6 +8,7 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { getPublishedPostsSafe } from "@/lib/blog-data";
 import { formatDateShort } from "@/utils/format-date";
+import { Breadcrumb } from "@/components/common/breadcrumb";
 
 export const metadata: Metadata = generateSEO({
   title: "Blog",
@@ -35,6 +36,13 @@ export default async function BlogPage() {
               <h1 className="font-display text-2xl font-bold text-[#101214] sm:text-3xl lg:text-4xl">
                 Blog
               </h1>
+              <Breadcrumb
+                className="mt-4 justify-center"
+                items={[
+                  { name: "Ana Sayfa", href: "/" },
+                  { name: "Blog" },
+                ]}
+              />
               <p className="mt-3 text-sm text-muted-foreground sm:mt-4 sm:text-lg">
                 ABS beyni tamiri ve otomotiv güvenliği hakkında faydalı bilgiler
               </p>

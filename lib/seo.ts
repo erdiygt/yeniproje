@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.abscimustafa.com.tr";
 const siteName = process.env.NEXT_PUBLIC_SITE_NAME || "ABSCİMustafa.com.tr";
 const defaultAddress =
   "İvedik Organize Sanayi Bölgesi 1333. Cadde No:113 İvedik / ANKARA";
@@ -17,7 +17,7 @@ export const siteConfig = {
   name: siteName,
   url: siteUrl,
   description:
-    "Profesyonel ABS beyni tamiri ve satışı hizmetleri. Tüm marka ve modeller için garantili ABS modül onarımı.",
+    "ABS beyni tamiri ve satış konusunda sektörün lider firması abscimustafa.com.tr'den profesyonel destek alın.",
   phone:
     process.env.NEXT_PUBLIC_PHONE ||
     process.env.PHONE ||
@@ -48,6 +48,8 @@ interface SEOProps {
   publishedTime?: string;
   modifiedTime?: string;
   author?: string;
+  /** Use title as-is without appending site name */
+  absoluteTitle?: boolean;
 }
 
 export function generateSEO({
@@ -60,8 +62,13 @@ export function generateSEO({
   publishedTime,
   modifiedTime,
   author,
+  absoluteTitle = false,
 }: SEOProps = {}): Metadata {
-  const pageTitle = title ? `${title} | ${siteConfig.name}` : siteConfig.name;
+  const pageTitle = absoluteTitle && title
+    ? title
+    : title
+      ? `${title} | ${siteConfig.name}`
+      : siteConfig.name;
   const pageDescription = description || siteConfig.description;
   const pageImage = image || `${siteConfig.url}/icon.png`;
   const pageUrl = canonical || siteConfig.url;

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { signOut, auth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
-import { FileText, LogOut } from "lucide-react";
+import { FileText, FolderTree, LogOut, Package } from "lucide-react";
 import type { Metadata } from "next";
 import { generateSEO } from "@/lib/seo";
 
@@ -22,7 +22,7 @@ export default async function AdminLayout({
 }) {
   const session = await auth();
 
-  if (!session?.user) {
+  if (!session?.user || session.user.role !== "admin") {
     return <>{children}</>;
   }
 
@@ -38,6 +38,20 @@ export default async function AdminLayout({
               Yönetim Paneli
             </Link>
             <nav className="hidden sm:flex items-center gap-6">
+              <Link
+                href="/admin/products"
+                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <Package className="h-4 w-4" />
+                Ürünler
+              </Link>
+              <Link
+                href="/admin/categories"
+                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <FolderTree className="h-4 w-4" />
+                Kategoriler
+              </Link>
               <Link
                 href="/admin/blog"
                 className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"

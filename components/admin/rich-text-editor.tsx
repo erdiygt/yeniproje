@@ -37,11 +37,15 @@ interface RichTextEditorProps {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
+  folder?: string;
 }
 
-async function uploadImage(file: File): Promise<string> {
+async function uploadImage(file: File, folder?: string): Promise<string> {
   const formData = new FormData();
   formData.append("file", file);
+  if (folder) {
+    formData.append("folder", folder);
+  }
 
   const response = await fetch("/api/upload", {
     method: "POST",
@@ -100,6 +104,7 @@ export function RichTextEditor({
   value,
   onChange,
   placeholder = "Yazınızı buraya girin...",
+  folder,
 }: RichTextEditorProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const onChangeRef = useRef(onChange);
@@ -161,7 +166,7 @@ export function RichTextEditor({
       setUploadError(null);
 
       try {
-        const url = await uploadImage(file);
+        const url = await uploadImage(file, folder);
         editor.chain().focus().setImage({ src: url, alt: file.name }).run();
       } catch (error) {
         setUploadError(
@@ -171,7 +176,7 @@ export function RichTextEditor({
         setIsUploading(false);
       }
     },
-    [editor]
+    [editor, folder]
   );
 
   const handleImageSelect = () => {
