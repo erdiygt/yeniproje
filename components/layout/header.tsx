@@ -105,14 +105,11 @@ export function Header() {
         role="banner"
       >
         <div className="container-site">
-          <div className="flex h-16 items-center justify-between gap-2 lg:h-[72px] lg:gap-8">
-            <Logo
-              weight="medium"
-              className="min-w-0 flex-1 sm:flex-none sm:w-auto"
-            />
+          <div className="flex h-16 items-center justify-between gap-3 lg:h-[72px]">
+            <Logo weight="medium" className="min-w-0 shrink" />
 
             <nav
-              className="hidden lg:flex items-center gap-8"
+              className="hidden items-center gap-8 lg:flex"
               aria-label="Ana menü"
             >
               {navItems.map((item) => (
@@ -126,7 +123,7 @@ export function Header() {
               ))}
             </nav>
 
-            <div className="hidden lg:flex items-center gap-4">
+            <div className="hidden items-center gap-4 lg:flex">
               <Button
                 variant="default"
                 size="default"

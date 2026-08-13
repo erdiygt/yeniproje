@@ -22,15 +22,16 @@ export function Logo({ className = "", variant = "default" }: LogoProps) {
       aria-label="Ana Sayfa"
     >
       <Image
-        src="/images/logo.png"
-        alt="ABSCİ Mustafa ABS Tamiri"
-        width={400}
-        height={144}
+        src="/images/logo.png?v=4"
+        alt="ABSCİ Mustafa"
+        width={500}
+        height={137}
         priority
+        unoptimized
         className={
           variant === "white"
-            ? "h-12 w-full max-w-full object-fill brightness-0 invert sm:h-10 sm:w-auto sm:max-w-none sm:object-contain lg:h-11"
-            : "h-12 w-full max-w-full object-fill sm:h-10 sm:w-auto sm:max-w-none sm:object-contain lg:h-11"
+            ? "h-11 w-auto max-w-[min(260px,calc(100vw-6rem))] object-contain object-left brightness-0 invert sm:h-11 sm:max-w-none lg:h-12"
+            : "h-11 w-auto max-w-[min(260px,calc(100vw-6rem))] object-contain object-left sm:h-11 sm:max-w-none lg:h-12"
         }
       />
     </Link>
