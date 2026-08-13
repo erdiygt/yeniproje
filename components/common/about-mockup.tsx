@@ -19,9 +19,9 @@ export function AboutMockup() {
               Açıklama
             </p>
             <div className="space-y-2">
-              <div className="h-2.5 w-full rounded-full bg-[#DBEAFE]" />
-              <div className="h-2.5 w-[85%] rounded-full bg-[#DBEAFE]" />
-              <div className="h-2.5 w-[65%] rounded-full bg-[#DBEAFE]" />
+              <div className="h-2.5 w-full rounded-full bg-[#FFD8C4]" />
+              <div className="h-2.5 w-[85%] rounded-full bg-[#FFD8C4]" />
+              <div className="h-2.5 w-[65%] rounded-full bg-[#FFD8C4]" />
             </div>
           </div>
 
@@ -30,8 +30,8 @@ export function AboutMockup() {
               Teşhis Adımları
             </p>
             <div className="space-y-2">
-              <div className="h-2.5 w-full rounded-full bg-[#DBEAFE]" />
-              <div className="h-2.5 w-[75%] rounded-full bg-[#DBEAFE]" />
+              <div className="h-2.5 w-full rounded-full bg-[#FFD8C4]" />
+              <div className="h-2.5 w-[75%] rounded-full bg-[#FFD8C4]" />
             </div>
           </div>
 
@@ -41,7 +41,7 @@ export function AboutMockup() {
                 key={tab}
                 className={`rounded-md px-2.5 py-1 font-text text-[11px] font-medium ${
                   i === 1
-                    ? "bg-[#EBF2FF] text-[#165FC7]"
+                    ? "bg-[#FFF1EB] text-[#FE4203]"
                     : "text-[#9CA3AF]"
                 }`}
               >
@@ -51,9 +51,9 @@ export function AboutMockup() {
           </div>
 
           <div className="space-y-2 rounded-lg bg-[#F9FAFB] p-3">
-            <div className="h-2 w-full rounded bg-[#BFDBFE]/60" />
+            <div className="h-2 w-full rounded bg-[#FFC7A8]/60" />
             <div className="h-2 w-[90%] rounded bg-[#FECACA]/70" />
-            <div className="h-2 w-[80%] rounded bg-[#BFDBFE]/60" />
+            <div className="h-2 w-[80%] rounded bg-[#FFC7A8]/60" />
           </div>
         </div>
 
@@ -70,7 +70,7 @@ export function AboutMockup() {
             <span className="absolute -bottom-3 left-1 text-[#101214]">✦</span>
             <button
               type="button"
-              className="rounded-lg bg-[#165FC7] px-4 py-2 font-text text-xs font-semibold text-white shadow-md"
+              className="rounded-lg bg-[#FE4203] px-4 py-2 font-text text-xs font-semibold text-white shadow-md"
               tabIndex={-1}
               aria-hidden="true"
             >

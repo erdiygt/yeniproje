@@ -34,7 +34,7 @@ export function DarkCTASection() {
 
             <Link
               href="#iletisim"
-              className="mt-8 inline-flex h-[46px] items-center justify-center rounded-full bg-[#165FC7] px-8 font-text text-[15px] font-semibold text-white transition-colors hover:bg-[#124DA3] lg:mt-10"
+              className="mt-8 inline-flex h-[46px] items-center justify-center rounded-full bg-[#FE4203] px-8 font-text text-[15px] font-semibold text-white transition-colors hover:bg-[#E03A00] lg:mt-10"
             >
               Daha Fazla
             </Link>

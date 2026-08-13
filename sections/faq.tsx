@@ -14,7 +14,7 @@ export function FAQSection() {
   return (
     <section
       id="sss"
-      className="section-padding scroll-mt-[72px] bg-[#EEF3FF]"
+      className="section-padding scroll-mt-[72px] bg-[#FFF1EB]"
       aria-labelledby="faq-heading"
     >
       <div className="container-site">
@@ -28,7 +28,7 @@ export function FAQSection() {
           <SectionHeading id="faq-heading">
             Sıkça Sorulan Sorular
           </SectionHeading>
-          <p className="mx-auto mt-4 max-w-xl text-sm text-[#4A5F7F] sm:text-lg">
+          <p className="mx-auto mt-4 max-w-xl text-sm text-[#4C5065] sm:text-lg">
             ABS beyni tamiri hakkında merak ettikleriniz
           </p>
         </motion.div>
@@ -45,7 +45,7 @@ export function FAQSection() {
               <AccordionItem
                 key={item.id}
                 value={item.id}
-                className="overflow-hidden rounded-2xl border-0 bg-[#D6E4FF] sm:rounded-[20px]"
+                className="overflow-hidden rounded-2xl border-0 bg-[#FFE0D1] sm:rounded-[20px]"
               >
                 <AccordionTrigger className="px-5 py-4 font-display text-[15px] font-bold text-[#101214] hover:no-underline sm:px-6 sm:py-5 sm:text-base [&[data-state=open]]:pb-3 [&>svg]:text-[#101214]">
                   {item.question}

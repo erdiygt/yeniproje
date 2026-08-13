@@ -129,7 +129,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     </time>
                   )}
                   {post.category && (
-                    <span className="inline-flex rounded-full border border-[#165FC7]/40 px-3 py-1 font-text text-[11px] font-semibold uppercase tracking-[0.08em] text-[#165FC7]">
+                    <span className="inline-flex rounded-full border border-[#FE4203]/40 px-3 py-1 font-text text-[11px] font-semibold uppercase tracking-[0.08em] text-[#FE4203]">
                       {post.category}
                     </span>
                   )}
@@ -182,7 +182,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label={`${shareLink.label} ile paylaş`}
-                          className="inline-flex items-center justify-center rounded-full border border-[#D1D5DB] px-4 py-2 font-text text-sm font-medium text-[#101214] transition-colors hover:border-[#165FC7] hover:text-[#165FC7]"
+                          className="inline-flex items-center justify-center rounded-full border border-[#D1D5DB] px-4 py-2 font-text text-sm font-medium text-[#101214] transition-colors hover:border-[#FE4203] hover:text-[#FE4203]"
                         >
                           {shareLink.label}
                         </a>
@@ -193,16 +193,16 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
                 <section
                   aria-labelledby="article-author-heading"
-                  className="rounded-[24px] border border-[#D6E4FF] bg-[#EEF3FF] p-6 sm:p-7"
+                  className="rounded-[24px] border border-[#FFE0D1] bg-[#FFF1EB] p-6 sm:p-7"
                 >
                   <p
                     id="article-author-heading"
-                    className="font-text text-[11px] font-bold uppercase tracking-[0.12em] text-[#165FC7]"
+                    className="font-text text-[11px] font-bold uppercase tracking-[0.12em] text-[#FE4203]"
                   >
                     Yazar
                   </p>
                   <div className="mt-4 flex items-start gap-4">
-                    <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full border border-[#D6E4FF] bg-white">
+                    <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full border border-[#FFE0D1] bg-white">
                       <Image
                         src="/author-absci-mustafa.png"
                         alt="ABS'ci Mustafa"
@@ -227,7 +227,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
                 <Link
                   href="/blog"
-                  className="font-text text-sm font-medium text-[#165FC7] underline underline-offset-2 hover:text-[#124DA3]"
+                  className="font-text text-sm font-medium text-[#FE4203] underline underline-offset-2 hover:text-[#E03A00]"
                 >
                   ← Tüm yazılara dön
                 </Link>

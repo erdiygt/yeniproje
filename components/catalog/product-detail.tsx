@@ -134,7 +134,7 @@ export async function ProductDetail({ product }: ProductDetailProps) {
                   </a>
                   <a
                     href={phoneUrl}
-                    className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#EBF2FF] px-6 font-semibold text-[#091E42] transition-colors hover:bg-[#DCE6FF]"
+                    className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#165FC7] px-6 font-semibold text-white transition-colors hover:bg-[#124DA3]"
                   >
                     <Phone className="h-4 w-4" strokeWidth={2.25} />
                     Tıkla Ara
@@ -179,7 +179,7 @@ export async function ProductDetail({ product }: ProductDetailProps) {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={`${shareLink.label} ile paylaş`}
-                        className="inline-flex items-center justify-center rounded-full border border-[#D1D5DB] px-4 py-2 font-text text-sm font-medium text-[#101214] transition-colors hover:border-[#165FC7] hover:text-[#165FC7]"
+                        className="inline-flex items-center justify-center rounded-full border border-[#D1D5DB] px-4 py-2 font-text text-sm font-medium text-[#101214] transition-colors hover:border-[#FE4203] hover:text-[#FE4203]"
                       >
                         {shareLink.label}
                       </a>
@@ -198,7 +198,7 @@ export async function ProductDetail({ product }: ProductDetailProps) {
                   {product.category && (
                     <Link
                       href={categoryPath(product.category.slug)}
-                      className="font-text text-sm font-semibold text-[#165FC7] transition-colors hover:text-[#124DA3]"
+                      className="font-text text-sm font-semibold text-[#FE4203] transition-colors hover:text-[#E03A00]"
                     >
                       Tümünü Gör →
                     </Link>

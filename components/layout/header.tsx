@@ -105,8 +105,11 @@ export function Header() {
         role="banner"
       >
         <div className="container-site">
-          <div className="flex h-16 items-center justify-between lg:h-[72px]">
-            <Logo weight="medium" />
+          <div className="flex h-16 items-center justify-between gap-2 lg:h-[72px] lg:gap-8">
+            <Logo
+              weight="medium"
+              className="min-w-0 flex-1 sm:flex-none sm:w-auto"
+            />
 
             <nav
               className="hidden lg:flex items-center gap-8"
@@ -142,7 +145,7 @@ export function Header() {
 
             <button
               type="button"
-              className="flex h-11 w-11 items-center justify-center rounded-full bg-[#F0F4FA] transition-colors hover:bg-[#E3EBF7] lg:hidden"
+              className="flex size-11 shrink-0 items-center justify-center rounded-full bg-[#FFF1EB] transition-colors hover:bg-[#FFE4D6] lg:hidden"
               onClick={() => setIsMobileMenuOpen(true)}
               aria-label="Menüyü aç"
               aria-expanded={isMobileMenuOpen}

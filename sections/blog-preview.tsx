@@ -52,7 +52,7 @@ function BlogCard({
     >
       <Link
         href={`/blog/${slug}`}
-        className="group flex h-full min-h-[280px] flex-col rounded-[20px] bg-[#124DA3] p-7 transition-colors hover:bg-[#114A9C] sm:min-h-[300px] sm:p-8 lg:min-h-[320px] lg:rounded-[24px] lg:p-10"
+        className="group flex h-full min-h-[280px] flex-col rounded-[20px] bg-[#010B2F] p-7 transition-colors hover:bg-[#162447] sm:min-h-[300px] sm:p-8 lg:min-h-[320px] lg:rounded-[24px] lg:p-10"
       >
         <h3 className="font-display text-[20px] font-bold leading-[1.25] text-white sm:text-[22px] lg:text-[26px]">
           {title}
@@ -92,7 +92,7 @@ export function BlogPreviewSection({ posts }: BlogPreviewSectionProps) {
   return (
     <section className="section-padding bg-white" aria-labelledby="blog-heading">
       <div className="container-site">
-        <div className="overflow-hidden rounded-[28px] bg-[#165FC7] px-6 py-12 sm:rounded-[36px] sm:px-10 sm:py-14 lg:rounded-[40px] lg:px-16 lg:py-16 xl:px-20 xl:py-20">
+        <div className="overflow-hidden rounded-[28px] bg-[#010B2F] px-6 py-12 sm:rounded-[36px] sm:px-10 sm:py-14 lg:rounded-[40px] lg:px-16 lg:py-16 xl:px-20 xl:py-20">
           <motion.header
             className="mx-auto mb-10 max-w-4xl text-center lg:mb-14"
             initial={{ opacity: 0, y: 20 }}

@@ -11,13 +11,8 @@ import {
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/sections/hero";
-import { HomeCatalogSection } from "@/sections/home-catalog";
 import { faqItems } from "@/lib/data/faq";
 import { getPublishedPostsSafe } from "@/lib/blog-data";
-import {
-  getPublishedCategoriesSafe,
-  getPublishedProductsSafe,
-} from "@/lib/catalog-data";
 
 const ReferencesSection = dynamic(
   () =>
@@ -63,11 +58,7 @@ export const metadata: Metadata = generateSEO({
 });
 
 export default async function HomePage() {
-  const [posts, products, categories] = await Promise.all([
-    getPublishedPostsSafe(2),
-    getPublishedProductsSafe(9),
-    getPublishedCategoriesSafe(),
-  ]);
+  const posts = await getPublishedPostsSafe(2);
 
   const schemas = [
     getOrganizationSchema(),
@@ -87,7 +78,6 @@ export default async function HomePage() {
       <Header />
       <main>
         <HeroSection />
-        <HomeCatalogSection categories={categories} products={products} />
         <ReferencesSection />
         <AboutSection />
         <TestimonialsSection />

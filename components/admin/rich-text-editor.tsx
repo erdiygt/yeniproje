@@ -87,8 +87,8 @@ function ToolbarButton({
       disabled={disabled}
       onClick={onClick}
       className={cn(
-        "flex h-8 w-8 items-center justify-center rounded-md text-[#374151] transition-colors hover:bg-[#EBF2FF] hover:text-[#165FC7] disabled:cursor-not-allowed disabled:opacity-40",
-        active && "bg-[#EBF2FF] text-[#165FC7]"
+        "flex h-8 w-8 items-center justify-center rounded-md text-[#374151] transition-colors hover:bg-[#FFF1EB] hover:text-[#FE4203] disabled:cursor-not-allowed disabled:opacity-40",
+        active && "bg-[#FFF1EB] text-[#FE4203]"
       )}
     >
       {children}
@@ -125,7 +125,7 @@ export function RichTextEditor({
       Link.configure({
         openOnClick: false,
         HTMLAttributes: {
-          class: "text-[#165FC7] underline underline-offset-2",
+          class: "text-[#FE4203] underline underline-offset-2",
         },
       }),
       Image.configure({
@@ -285,8 +285,8 @@ export function RichTextEditor({
           <Highlighter className="h-4 w-4" />
         </ToolbarButton>
 
-        <label title="Metin rengi" className="relative flex h-8 w-8 cursor-pointer items-center justify-center rounded-md hover:bg-[#EBF2FF]">
-          <span className="text-xs font-bold text-[#165FC7]">A</span>
+        <label title="Metin rengi" className="relative flex h-8 w-8 cursor-pointer items-center justify-center rounded-md hover:bg-[#FFF1EB]">
+          <span className="text-xs font-bold text-[#FE4203]">A</span>
           <input
             type="color"
             className="absolute inset-0 cursor-pointer opacity-0"
@@ -376,7 +376,7 @@ export function RichTextEditor({
       </div>
 
       {isUploading && (
-        <div className="border-b border-[#E5E7EB] bg-[#EBF2FF] px-4 py-2 font-text text-xs text-[#165FC7]">
+        <div className="border-b border-[#E5E7EB] bg-[#FFF1EB] px-4 py-2 font-text text-xs text-[#FE4203]">
           Görsel yükleniyor...
         </div>
       )}

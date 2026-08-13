@@ -75,7 +75,7 @@ export function HeroSection() {
               aria-label="Telefon ile ara"
               className={cn(
                 heroButtonBase,
-                "bg-[#EBF2FF] text-[#091E42] hover:bg-[#DCE6FF] focus-visible:ring-[#165FC7]"
+                "bg-[#165FC7] text-white hover:bg-[#124DA3] focus-visible:ring-[#165FC7]"
               )}
             >
               <Phone className="h-4 w-4 shrink-0 sm:h-[18px] sm:w-[18px]" strokeWidth={2.25} />
@@ -89,16 +89,15 @@ export function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <div className="relative aspect-[16/9] w-full">
-              <Image
-                src="/images/hero.png"
-                alt="ABS beyni tamiri ve bakım hizmeti"
-                fill
-                priority
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
-              />
-            </div>
+            <Image
+              src="/images/hero.jpg"
+              alt="ABS beyni tamiri ve bakım hizmeti"
+              width={1024}
+              height={682}
+              priority
+              className="h-auto w-full"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
+            />
           </motion.div>
         </div>
       </div>

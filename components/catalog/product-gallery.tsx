@@ -15,15 +15,15 @@ function GalleryBadges() {
   return (
     <>
       <div
-        className="pointer-events-none absolute left-3 top-3 z-10 flex h-[4.75rem] w-[4.75rem] flex-col items-center justify-center rounded-full bg-[#EBF2FF]/95 px-2 text-center shadow-[0_6px_20px_rgba(16,18,20,0.14)] backdrop-blur-sm sm:left-4 sm:top-4 sm:h-[5.5rem] sm:w-[5.5rem]"
+        className="pointer-events-none absolute left-3 top-3 z-10 flex h-[4.75rem] w-[4.75rem] flex-col items-center justify-center rounded-full bg-[#FFF1EB]/95 px-2 text-center shadow-[0_6px_20px_rgba(16,18,20,0.14)] backdrop-blur-sm sm:left-4 sm:top-4 sm:h-[5.5rem] sm:w-[5.5rem]"
         aria-label="Tüm Türkiye'ye Kargo"
       >
         <Truck
-          className="h-4 w-4 text-[#165FC7] sm:h-5 sm:w-5"
+          className="h-4 w-4 text-[#FE4203] sm:h-5 sm:w-5"
           strokeWidth={2.25}
           aria-hidden="true"
         />
-        <span className="mt-1 font-text text-[9px] font-semibold leading-[1.15] text-[#165FC7] sm:text-[10px]">
+        <span className="mt-1 font-text text-[9px] font-semibold leading-[1.15] text-[#FE4203] sm:text-[10px]">
           Tüm Türkiye&apos;ye
           <br />
           Kargo

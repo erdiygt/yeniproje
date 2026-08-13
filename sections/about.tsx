@@ -11,10 +11,10 @@ export function AboutSection() {
       aria-labelledby="about-heading"
     >
       {/* Mobil: tam genişlik mavi arka plan; masaüstü: container içinde kart */}
-      <div className="bg-[#165FC7] py-12 sm:py-16 md:bg-transparent md:py-0">
+      <div className="bg-[#010B2F] py-12 sm:py-16 md:bg-transparent md:py-0">
         <div className="md:container-site">
           <motion.div
-            className="overflow-visible max-md:rounded-none md:mx-auto md:max-w-5xl md:overflow-hidden md:rounded-[40px] md:bg-[#165FC7]"
+            className="overflow-visible max-md:rounded-none md:mx-auto md:max-w-5xl md:overflow-hidden md:rounded-[40px] md:bg-[#010B2F]"
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}

@@ -12,7 +12,7 @@ const whyUsItems = [
       "ABS beyni tamir ve satışında yalnızca orijinal yedek parça kullanıyoruz. Marka onaylı, uyumlu ve dayanıklı ürünlerle aracınızın güvenliğini ve performansını koruyoruz.",
     link: "#iletisim",
     linkText: "Detaylı Bilgi",
-    bgColor: "bg-[#EBF2FF]",
+    bgColor: "bg-[#FFF1EB]",
     icon: Package,
     visual: "orijinal",
   },
@@ -57,16 +57,16 @@ function FeatureVisual({
             <p className="font-display text-sm font-bold text-[#101214]">
               Orijinal Yedek Parça
             </p>
-            <span className="rounded-full bg-[#165FC7]/10 px-2.5 py-1 font-text text-[10px] font-bold uppercase tracking-wider text-[#165FC7]">
+            <span className="rounded-full bg-[#FE4203]/10 px-2.5 py-1 font-text text-[10px] font-bold uppercase tracking-wider text-[#FE4203]">
               OEM
             </span>
           </div>
           <div className="flex items-center gap-4 rounded-xl border border-[#E5E7EB] bg-[#F9FAFB] p-4">
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-[#165FC7]/10">
-              <Icon className="h-7 w-7 text-[#165FC7]" />
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-[#FE4203]/10">
+              <Icon className="h-7 w-7 text-[#FE4203]" />
             </div>
             <div className="min-w-0 flex-1 space-y-2">
-              <div className="h-2.5 w-full rounded bg-[#DBEAFE]" />
+              <div className="h-2.5 w-full rounded bg-[#FFD8C4]" />
               <div className="h-2 w-3/4 rounded bg-[#E5E7EB]" />
               <p className="font-text text-[10px] font-semibold text-[#059669]">
                 ✓ Orijinal Ürün
@@ -83,7 +83,7 @@ function FeatureVisual({
               </div>
             ))}
           </div>
-          <span className="absolute -bottom-3 -right-3 rounded-lg bg-[#165FC7] px-3 py-1.5 font-text text-xs font-semibold text-white shadow-md">
+          <span className="absolute -bottom-3 -right-3 rounded-lg bg-[#FE4203] px-3 py-1.5 font-text text-xs font-semibold text-white shadow-md">
             Orijinal
           </span>
         </div>
@@ -189,7 +189,7 @@ function FeatureRow({
       </p>
       <Link
         href={item.link}
-        className="mt-6 inline-flex items-center gap-1.5 font-text text-[15px] font-semibold text-[#165FC7] transition-colors hover:text-[#124DA3] lg:mt-8"
+        className="mt-6 inline-flex items-center gap-1.5 font-text text-[15px] font-semibold text-[#FE4203] transition-colors hover:text-[#E03A00] lg:mt-8"
       >
         {item.linkText}
         <ArrowRight className="h-4 w-4" />

@@ -65,7 +65,7 @@ export async function Footer() {
         </div>
       </div>
 
-      <div className="bg-[#EEF3FF] pb-12 pt-20 sm:pb-14 sm:pt-24 lg:pb-16 lg:pt-28">
+      <div className="bg-[#FFF1EB] pb-12 pt-20 sm:pb-14 sm:pt-24 lg:pb-16 lg:pt-28">
         <div className="container-site">
           <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.45fr_0.9fr_0.9fr_1fr] lg:gap-8">
             <div className="sm:col-span-2 lg:col-span-1">
@@ -116,7 +116,7 @@ export async function Footer() {
               )}
               <Link
                 href="/blog"
-                className="mt-4 inline-block font-text text-[13px] font-medium text-[#165FC7] transition-colors hover:text-[#124DA3]"
+                className="mt-4 inline-block font-text text-[13px] font-medium text-[#FE4203] transition-colors hover:text-[#E03A00]"
               >
                 Tüm yazılar →
               </Link>

@@ -41,8 +41,8 @@ export function RelatedPosts({ posts }: RelatedPostsProps) {
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                   ) : (
-                    <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#EEF3FF] to-[#E8F5EC]">
-                      <span className="font-display text-3xl font-bold text-[#165FC7]/25">
+                    <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#FFF1EB] to-[#E8F5EC]">
+                      <span className="font-display text-3xl font-bold text-[#FE4203]/25">
                         ABS
                       </span>
                     </div>
@@ -51,12 +51,12 @@ export function RelatedPosts({ posts }: RelatedPostsProps) {
 
                 <div className="flex flex-1 flex-col p-5 sm:p-6">
                   {post.category && (
-                    <span className="mb-3 inline-flex w-fit rounded-full border border-[#165FC7]/35 px-2.5 py-1 font-text text-[10px] font-semibold uppercase tracking-[0.08em] text-[#165FC7]">
+                    <span className="mb-3 inline-flex w-fit rounded-full border border-[#FE4203]/35 px-2.5 py-1 font-text text-[10px] font-semibold uppercase tracking-[0.08em] text-[#FE4203]">
                       Yazı · {post.category}
                     </span>
                   )}
 
-                  <h3 className="font-display text-lg font-bold leading-snug text-[#101214] group-hover:text-[#165FC7] sm:text-xl">
+                  <h3 className="font-display text-lg font-bold leading-snug text-[#101214] group-hover:text-[#FE4203] sm:text-xl">
                     {post.title}
                   </h3>
 

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export const brandName = "ABSCİMustafa.com.tr";
@@ -7,70 +8,31 @@ export const brandNameDomain = "Mustafa.com.tr";
 interface LogoProps {
   className?: string;
   variant?: "default" | "white";
+  /** @deprecated Image logo ignores weight */
   weight?: "bold" | "semibold" | "medium";
-  /** Mobilde üst/alt satır; masaüstünde tek satır */
+  /** @deprecated Image logo ignores layout */
   layout?: "responsive" | "stacked" | "inline";
 }
 
-export function Logo({
-  className = "",
-  variant = "default",
-  weight = "bold",
-  layout = "responsive",
-}: LogoProps) {
-  const textColor = variant === "white" ? "text-white" : "text-[#101214]";
-  const subtextColor =
-    variant === "white" ? "text-white/80" : "text-[#101214]";
-  const weightClass =
-    weight === "medium"
-      ? "font-medium"
-      : weight === "semibold"
-        ? "font-semibold"
-        : "font-bold";
-
-  const showStacked = layout === "stacked" || layout === "responsive";
-  const showInline = layout === "inline" || layout === "responsive";
-
+export function Logo({ className = "", variant = "default" }: LogoProps) {
   return (
     <Link
       href="/"
-      className={`flex items-center gap-2.5 ${className}`}
+      className={`inline-flex min-w-0 max-w-full items-center ${className}`}
       aria-label="Ana Sayfa"
     >
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary lg:h-9 lg:w-9 lg:rounded-lg">
-        <span className={`font-display text-sm ${weightClass} text-white`}>
-          ABS
-        </span>
-      </div>
-
-      {showStacked && (
-        <div
-          className={`flex flex-col leading-none ${
-            layout === "responsive" ? "lg:hidden" : ""
-          }`}
-        >
-          <span
-            className={`font-display text-[10px] font-bold uppercase tracking-[0.14em] ${subtextColor}`}
-          >
-            {brandNameShort}
-          </span>
-          <span
-            className={`font-display -mt-0.5 text-[18px] font-medium tracking-tight ${textColor}`}
-          >
-            {brandNameDomain}
-          </span>
-        </div>
-      )}
-
-      {showInline && (
-        <span
-          className={`font-display text-base ${weightClass} tracking-tight ${textColor} sm:text-lg ${
-            layout === "responsive" ? "hidden lg:block" : ""
-          }`}
-        >
-          {brandName}
-        </span>
-      )}
+      <Image
+        src="/images/logo.png"
+        alt="ABSCİ Mustafa ABS Tamiri"
+        width={400}
+        height={144}
+        priority
+        className={
+          variant === "white"
+            ? "h-12 w-full max-w-full object-fill brightness-0 invert sm:h-10 sm:w-auto sm:max-w-none sm:object-contain lg:h-11"
+            : "h-12 w-full max-w-full object-fill sm:h-10 sm:w-auto sm:max-w-none sm:object-contain lg:h-11"
+        }
+      />
     </Link>
   );
 }

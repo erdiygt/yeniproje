@@ -4,28 +4,29 @@
   --font-display-fallback: "Outfit", system-ui, sans-serif;
   --font-text-fallback: "Plus Jakarta Sans", system-ui, sans-serif;
   --background: #ffffff;
-  --foreground: #0d0d0d;
-  --heading: #101214;
+  --foreground: #010B2F;
+  --heading: #010B2F;
 
-  --primary: #165FC7;
-  --primary-hover: #124DA3;
+  /* Logo palette: navy + orange */
+  --primary: #FE4203;
+  --primary-hover: #E03A00;
   --primary-foreground: #ffffff;
 
   --secondary: #f5f5f7;
-  --secondary-foreground: #0d0d0d;
+  --secondary-foreground: #010B2F;
 
   --muted: #f5f5f7;
-  --muted-foreground: #6b6b6b;
+  --muted-foreground: #4C5065;
 
-  --accent: #EBF2FF;
-  --accent-foreground: #165FC7;
+  --accent: #FFF1EB;
+  --accent-foreground: #FE4203;
 
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
 
   --border: #e5e5e5;
   --input: #e5e5e5;
-  --ring: #165FC7;
+  --ring: #FE4203;
 
   --card: #ffffff;
   --card-foreground: #0d0d0d;
@@ -336,13 +337,13 @@ h6 {
 }
 
 .prose-blog a {
-  color: #165FC7;
+  color: #FE4203;
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 
 .prose-blog a:hover {
-  color: #124DA3;
+  color: #E03A00;
 }
 
 .prose-blog ul,
@@ -377,7 +378,7 @@ h6 {
 }
 
 .prose-blog blockquote {
-  border-left: 3px solid #165FC7;
+  border-left: 3px solid #FE4203;
   padding-left: 1.25em;
   margin: 1.75em 0;
   font-style: normal;
@@ -468,7 +469,7 @@ h6 {
 }
 
 .tiptap-editor blockquote {
-  border-left: 3px solid #165FC7;
+  border-left: 3px solid #FE4203;
   padding-left: 1rem;
   margin: 1em 0;
   color: #4B5563;
@@ -482,7 +483,7 @@ h6 {
 }
 
 .tiptap-editor a {
-  color: #165FC7;
+  color: #FE4203;
   text-decoration: underline;
   text-underline-offset: 2px;
 }

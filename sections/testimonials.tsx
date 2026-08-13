@@ -57,15 +57,15 @@ function HexLogo() {
       aria-hidden="true"
       className="shrink-0"
     >
-      <path d="M6 2L11 5V11L6 14L1 11V5L6 2Z" fill="#1B3A6B" />
+      <path d="M6 2L11 5V11L6 14L1 11V5L6 2Z" fill="#010B2F" />
       <path
         d="M14 2L19 5V11L14 14L9 11V5L14 2Z"
-        fill="#1B3A6B"
+        fill="#010B2F"
         opacity="0.85"
       />
       <path
         d="M22 2L27 5V11L22 14L17 11V5L22 2Z"
-        fill="#1B3A6B"
+        fill="#010B2F"
         opacity="0.7"
       />
     </svg>
@@ -89,13 +89,13 @@ function TestimonialCard({
       }}
       transition={{ duration: 0.45, ease: "easeOut" }}
       className={cn(
-        "flex h-full min-h-[360px] w-[min(88vw,860px)] shrink-0 flex-col items-center justify-center rounded-[40px] bg-[#EEF3FF] px-10 py-12 text-center sm:min-h-[400px] sm:px-14 sm:py-14 lg:px-20 lg:py-16",
+        "flex h-full min-h-[360px] w-[min(88vw,860px)] shrink-0 flex-col items-center justify-center rounded-[40px] bg-[#FFF1EB] px-10 py-12 text-center sm:min-h-[400px] sm:px-14 sm:py-14 lg:px-20 lg:py-16",
         !isActive && "pointer-events-none"
       )}
     >
       <div className="mb-10 flex items-center justify-center gap-2.5">
         <HexLogo />
-        <span className="font-display text-[15px] font-bold tracking-tight text-[#1B3A6B]">
+        <span className="font-display text-[15px] font-bold tracking-tight text-[#010B2F]">
           {item.company}
         </span>
       </div>
@@ -105,7 +105,7 @@ function TestimonialCard({
       </blockquote>
 
       <div className="mt-12 flex items-center justify-center gap-3">
-        <div className="h-12 w-12 shrink-0 overflow-hidden rounded-full bg-[#D6E4FF]">
+        <div className="h-12 w-12 shrink-0 overflow-hidden rounded-full bg-[#FFE0D1]">
           <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#93B4E8] to-[#5B8FCE] font-display text-sm font-bold text-white">
             {item.author.charAt(0)}
           </div>
